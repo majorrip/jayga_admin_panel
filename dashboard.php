@@ -1,10 +1,23 @@
-﻿<!DOCTYPE html>
+﻿<?php
+
+// require_once("..database/connection/db.php");
+session_start();
+
+if(empty($_SESSION['admin_id'])) {
+  header("Location:dashboard.php");
+  exit();
+}
+
+?>
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Hotel Dashboard Template</title>
+	<title>Jaygaa Dashboard</title>
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -18,7 +31,7 @@
 	<div class="main-wrapper">
 		<div class="header">
 			<div class="header-left">
-				<a href="index.html" class="logo"> <img src="assets/img/hotel_logo.png" width="50" height="70" alt="logo"> <span class="logoclass">HOTEL</span> </a>
+				<a href="index.html" class="logo"> <img src="assets/img/logo/Jayga Logo-02.png" width="50" height="70" alt="logo"> <span class="logoclass">Jayga Admin</span> </a>
 				<a href="index.html" class="logo logo-small"> <img src="assets/img/hotel_logo.png" alt="Logo" width="30" height="30"> </a>
 			</div>
 			<a href="javascript:void(0);" id="toggle_btn"> <i class="fe fe-text-align-left"></i> </a>
@@ -26,7 +39,7 @@
 			<ul class="nav user-menu">
 				<li class="nav-item dropdown noti-dropdown">
 					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <i class="fe fe-bell"></i> <span class="badge badge-pill">3</span> </a>
-					<div class="dropdown-menu notifications">
+					<!-- <div class="dropdown-menu notifications">
 						<div class="topnav-dropdown-header"> <span class="notification-title">Notifications</span> <a href="javascript:void(0)" class="clear-noti"> Clear All </a> </div>
 						<div class="noti-content">
 							<ul class="notification-list">
@@ -85,18 +98,18 @@
 							</ul>
 						</div>
 						<div class="topnav-dropdown-footer"> <a href="#">View all Notifications</a> </div>
-					</div>
+					</div> -->
 				</li>
 				<li class="nav-item dropdown has-arrow">
-					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <span class="user-img"><img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31" alt="Soeng Souy"></span> </a>
+					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <span class="user-img"><img class="rounded-circle" src="assets/img/logo/jayga-appicon1.png" width="31" alt=""></span> </a>
 					<div class="dropdown-menu">
 						<div class="user-header">
-							<div class="avatar avatar-sm"> <img src="assets/img/profiles/avatar-01.jpg" alt="User Image" class="avatar-img rounded-circle"> </div>
+							<!-- <div class="avatar avatar-sm"> <img src="assets/img/logo/jayga_app_small.png" alt="User Image" class="avatar-img rounded-circle"> </div> -->
 							<div class="user-text">
-								<h6>Soeng Souy</h6>
+								<h6>ADMIN, AK</h6>
 								<p class="text-muted mb-0">Administrator</p>
 							</div>
-						</div> <a class="dropdown-item" href="profile.html">My Profile</a> <a class="dropdown-item" href="settings.html">Account Settings</a> <a class="dropdown-item" href="login.html">Logout</a> </div>
+						</div> <a class="dropdown-item" href="profile.html">My Profile</a> <a class="dropdown-item" href="settings.html">Account Settings</a> <a class="dropdown-item" href="../crud/logout.php">Logout</a> </div>
 				</li>
 			</ul>
 			<div class="top-nav-search">
@@ -255,7 +268,7 @@
 				<div class="page-header">
 					<div class="row">
 						<div class="col-sm-12 mt-5">
-							<h3 class="page-title mt-3">Good Morning Soeng Souy!</h3>
+							<h3 class="page-title mt-3">Greetings Admin!</h3>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item active">Dashboard</li>
 							</ul>

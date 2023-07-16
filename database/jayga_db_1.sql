@@ -1,177 +1,498 @@
-CREATE TABLE "saftey_measure"(
-    "listing_id" BIGINT NOT NULL,
-    "smoke_alarm" BIGINT NOT NULL,
-    "first_aid_kit" BIGINT NOT NULL,
-    "fire_extinguisher" BIGINT NOT NULL,
-    "CO_alarm" BIGINT NOT NULL
-);
-ALTER TABLE
-    "saftey_measure" ADD CONSTRAINT "saftey_measure_listing_id_primary" PRIMARY KEY("listing_id");
-CREATE TABLE "lister_dashboard"(
-    "lister_id" BIGINT NOT NULL,
-    "earnings" BIGINT NOT NULL,
-    "past_booking" VARCHAR(255) NOT NULL
-);
-ALTER TABLE
-    "lister_dashboard" ADD CONSTRAINT "lister_dashboard_lister_id_primary" PRIMARY KEY("lister_id");
-CREATE TABLE "lister_user"(
-    "lister_id" INT NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "lister_email" VARCHAR(255) NOT NULL,
-    "lister_phone_num" VARCHAR(255) NOT NULL,
-    "lister_nid" VARCHAR(255) NOT NULL,
-    "lister_dob" DATE NOT NULL,
-    "lister_address" VARCHAR(255) NOT NULL
-);
-ALTER TABLE
-    "lister_user" ADD CONSTRAINT "lister_user_lister_id_primary" PRIMARY KEY("lister_id");
-CREATE TABLE "user_pictures"(
-    "user_picture_id" BIGINT NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "user_filename" BIGINT NOT NULL,
-    "user_targetlocation" BIGINT NOT NULL
-);
-ALTER TABLE
-    "user_pictures" ADD CONSTRAINT "user_pictures_user_picture_id_primary" PRIMARY KEY("user_picture_id");
-CREATE TABLE "time_slot_shortstays"(
-    "time_id" BIGINT NOT NULL,
-    "times" BIGINT NOT NULL
-);
-ALTER TABLE
-    "time_slot_shortstays" ADD CONSTRAINT "time_slot_shortstays_time_id_primary" PRIMARY KEY("time_id");
-CREATE TABLE "restriction"(
-    "listing_id" BIGINT NOT NULL,
-    "indoor_smoke" BIGINT NOT NULL,
-    "host_parties" BIGINT NOT NULL,
-    "pets" BIGINT NOT NULL,
-    "un_vaccinated" BIGINT NOT NULL,
-    "late_night_entry" BIGINT NOT NULL,
-    "unknown_guest" BIGINT NOT NULL,
-    "anything_specific" VARCHAR(255) NOT NULL
-);
-ALTER TABLE
-    "restriction" ADD CONSTRAINT "restriction_listing_id_primary" PRIMARY KEY("listing_id");
-CREATE TABLE "amenities"(
-    "listing_id" BIGINT NOT NULL,
-    "wifi" BIGINT NOT NULL,
-    "tv" BIGINT NOT NULL,
-    "kitchen" BIGINT NOT NULL,
-    "washer" BIGINT NOT NULL,
-    "free_parking" BIGINT NOT NULL,
-    "paid_parking" BIGINT NOT NULL,
-    "air_cond" BIGINT NOT NULL,
-    "dedicated_workspace" BIGINT NOT NULL,
-    "pool" BIGINT NOT NULL,
-    "hottub" BIGINT NOT NULL,
-    "patio" BIGINT NOT NULL,
-    "bbq_grill" BIGINT NOT NULL,
-    "outdoor_dining area" BIGINT NOT NULL,
-    "fire_pit" BIGINT NOT NULL,
-    "gym" BIGINT NOT NULL,
-    "beach_access" BIGINT NOT NULL
-);
-ALTER TABLE
-    "amenities" ADD CONSTRAINT "amenities_listing_id_primary" PRIMARY KEY("listing_id");
-CREATE TABLE "listing"(
-    "listing_id" BIGINT NOT NULL,
-    "lister_id" BIGINT NOT NULL,
-    "guest_num" BIGINT NOT NULL,
-    "bed_num" BIGINT NOT NULL,
-    "bathroom_num" BIGINT NOT NULL,
-    "title" VARCHAR(255) NOT NULL,
-    "short_stay" VARCHAR(255) NOT NULL,
-    "describe_peaceful" BIGINT NOT NULL,
-    "describe_unique" BIGINT NOT NULL,
-    "describe_familyfriendly" BIGINT NOT NULL,
-    "describe_stylish" BIGINT NOT NULL,
-    "describe_central" BIGINT NOT NULL,
-    "describe_spacious" BIGINT NOT NULL,
-    "full_day_price_set_by_user" BIGINT NOT NULL,
-    "short_stay_price_set_up_by_user" BIGINT NULL,
-    "short_stay_price_set_up_by_jayga" BIGINT NULL,
-    "address" VARCHAR(255) NOT NULL,
-    "district" VARCHAR(255) NOT NULL,
-    "zip_code" BIGINT NOT NULL,
-    "town" VARCHAR(255) NOT NULL,
-    "bathroom_private" VARCHAR(255) NOT NULL,
-    "breakfast_availability" VARCHAR(255) NOT NULL,
-    "description" VARCHAR(255) NOT NULL,
-    "room_lock" VARCHAR(255) NOT NULL,
-    "who_else_might_be_there" VARCHAR(255) NOT NULL,
-    "house" BIGINT NOT NULL,
-    "appartment" BIGINT NOT NULL,
-    "rooms" BIGINT NOT NULL
-);
-ALTER TABLE
-    "listing" ADD CONSTRAINT "listing_listing_id_primary" PRIMARY KEY("listing_id");
-CREATE TABLE "review"(
-    "review_id" BIGINT NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "user_name" BIGINT NOT NULL,
-    "lister_id" BIGINT NOT NULL,
-    "lister_name" BIGINT NOT NULL,
-    "stars" BIGINT NOT NULL,
-    "description" BIGINT NOT NULL
-);
-ALTER TABLE
-    "review" ADD CONSTRAINT "review_review_id_primary" PRIMARY KEY("review_id");
-CREATE TABLE "review_images"(
-    "review_image_id" BIGINT NOT NULL,
-    "review_id" BIGINT NOT NULL,
-    "review_filename" BIGINT NOT NULL,
-    "review_tragetlocation" BIGINT NOT NULL
-);
-ALTER TABLE
-    "review_images" ADD CONSTRAINT "review_images_review_image_id_primary" PRIMARY KEY("review_image_id");
-CREATE TABLE "booking"(
-    "booking_id" BIGINT NOT NULL,
-    "user_id" BIGINT NOT NULL,
-    "listing_id" BIGINT NOT NULL,
-    "lister_id" BIGINT NOT NULL,
-    "time_flag" BIGINT NULL,
-    "time_id" BIGINT NOT NULL,
-    "all_day_flag" BIGINT NOT NULL,
-    "days_stayed" INT NULL,
-    "date_enter" DATE NOT NULL,
-    "date_exit" DATE NOT NULL,
-    "pay_amount" BIGINT NOT NULL,
-    "payment_flag" BIGINT NOT NULL,
-    "api stuff" BIGINT NOT NULL
-);
-ALTER TABLE
-    "booking" ADD CONSTRAINT "booking_booking_id_primary" PRIMARY KEY("booking_id");
-CREATE TABLE "users"(
-    "user_id" INT NOT NULL,
-    "user_name" VARCHAR(255) NOT NULL,
-    "user_email" VARCHAR(255) NOT NULL,
-    "user_phone_num" BIGINT NOT NULL,
-    "user_nid" BIGINT NOT NULL,
-    "user_dob" DATE NOT NULL,
-    "user_address" VARCHAR(255) NOT NULL,
-    "is_lister" BIGINT NULL,
-    "FCM_token" BIGINT NULL
-);
-ALTER TABLE
-    "users" ADD CONSTRAINT "users_user_id_primary" PRIMARY KEY("user_id");
-CREATE TABLE "lister_pictures"(
-    "lister_id" BIGINT NOT NULL,
-    "lister_filename" BIGINT NOT NULL,
-    "lister_targetlocation" BIGINT NOT NULL
-);
-ALTER TABLE
-    "lister_pictures" ADD CONSTRAINT "lister_pictures_lister_id_primary" PRIMARY KEY("lister_id");
-CREATE TABLE "listing_images"(
-    "listing_img_id" BIGINT NOT NULL,
-    "listing_id" BIGINT NOT NULL,
-    "listing_filename" BIGINT NOT NULL,
-    "listing_targetlocation" BIGINT NOT NULL
-);
-ALTER TABLE
-    "listing_images" ADD CONSTRAINT "listing_images_listing_img_id_primary" PRIMARY KEY("listing_img_id");
-CREATE TABLE "lister_nid"(
-    "listing_nid_id" BIGINT NOT NULL,
-    "lister_nid_pic_name" BIGINT NOT NULL,
-    "listing_nid_pic_loaction" BIGINT NOT NULL
-);
-ALTER TABLE
-    "lister_nid" ADD CONSTRAINT "lister_nid_listing_nid_id_primary" PRIMARY KEY("listing_nid_id");
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jul 16, 2023 at 07:34 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `jayga_db_1`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `admin_id` int(11) NOT NULL,
+  `admin_name` varchar(255) NOT NULL,
+  `admin_pass` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_pass`) VALUES
+(1, 'jayga_admin', 'jayga2023+');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `amenities`
+--
+
+CREATE TABLE `amenities` (
+  `listing_id` bigint(20) NOT NULL,
+  `wifi` bigint(20) NOT NULL,
+  `tv` bigint(20) NOT NULL,
+  `kitchen` bigint(20) NOT NULL,
+  `washer` bigint(20) NOT NULL,
+  `free_parking` bigint(20) NOT NULL,
+  `paid_parking` bigint(20) NOT NULL,
+  `air_cond` bigint(20) NOT NULL,
+  `dedicated_workspace` bigint(20) NOT NULL,
+  `pool` bigint(20) NOT NULL,
+  `hottub` bigint(20) NOT NULL,
+  `patio` bigint(20) NOT NULL,
+  `bbq_grill` bigint(20) NOT NULL,
+  `outdoor_dining_area` bigint(20) NOT NULL,
+  `fire_pit` bigint(20) NOT NULL,
+  `gym` bigint(20) NOT NULL,
+  `beach_access` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking`
+--
+
+CREATE TABLE `booking` (
+  `booking_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `listing_id` bigint(20) NOT NULL,
+  `lister_id` bigint(20) NOT NULL,
+  `time_flag` bigint(20) DEFAULT NULL,
+  `time_id` bigint(20) NOT NULL,
+  `all_day_flag` bigint(20) NOT NULL,
+  `days_stayed` int(11) DEFAULT NULL,
+  `date_enter` date NOT NULL,
+  `date_exit` date NOT NULL,
+  `pay_amount` bigint(20) NOT NULL,
+  `payment_flag` bigint(20) NOT NULL,
+  `api_stuff` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lister_dashboard`
+--
+
+CREATE TABLE `lister_dashboard` (
+  `lister_id` bigint(20) NOT NULL,
+  `earnings` bigint(20) NOT NULL,
+  `past_booking` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lister_nid`
+--
+
+CREATE TABLE `lister_nid` (
+  `listing_nid_id` bigint(20) NOT NULL,
+  `lister_nid_pic_name` bigint(20) NOT NULL,
+  `listing_nid_pic_location` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lister_pictures`
+--
+
+CREATE TABLE `lister_pictures` (
+  `lister_id` bigint(20) NOT NULL,
+  `lister_filename` bigint(20) NOT NULL,
+  `lister_targetlocation` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lister_user`
+--
+
+CREATE TABLE `lister_user` (
+  `lister_id` int(11) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `lister_email` varchar(255) NOT NULL,
+  `lister_phone_num` varchar(255) NOT NULL,
+  `lister_nid` varchar(255) NOT NULL,
+  `lister_dob` date NOT NULL,
+  `lister_address` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `listing`
+--
+
+CREATE TABLE `listing` (
+  `listing_id` bigint(20) NOT NULL,
+  `lister_id` bigint(20) NOT NULL,
+  `guest_num` bigint(20) NOT NULL,
+  `bed_num` bigint(20) NOT NULL,
+  `bathroom_num` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `short_stay` varchar(255) NOT NULL,
+  `describe_peaceful` bigint(20) NOT NULL,
+  `describe_unique` bigint(20) NOT NULL,
+  `describe_familyfriendly` bigint(20) NOT NULL,
+  `describe_stylish` bigint(20) NOT NULL,
+  `describe_central` bigint(20) NOT NULL,
+  `describe_spacious` bigint(20) NOT NULL,
+  `full_day_price_set_by_user` bigint(20) NOT NULL,
+  `short_stay_price_set_up_by_user` bigint(20) DEFAULT NULL,
+  `short_stay_price_set_up_by_jayga` bigint(20) DEFAULT NULL,
+  `address` varchar(255) NOT NULL,
+  `district` varchar(255) NOT NULL,
+  `zip_code` bigint(20) NOT NULL,
+  `town` varchar(255) NOT NULL,
+  `bathroom_private` varchar(255) NOT NULL,
+  `breakfast_availability` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `room_lock` varchar(255) NOT NULL,
+  `who_else_might_be_there` varchar(255) NOT NULL,
+  `house` bigint(20) NOT NULL,
+  `apartment` bigint(20) NOT NULL,
+  `rooms` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `listing_images`
+--
+
+CREATE TABLE `listing_images` (
+  `listing_img_id` bigint(20) NOT NULL,
+  `listing_id` bigint(20) NOT NULL,
+  `listing_filename` bigint(20) NOT NULL,
+  `listing_targetlocation` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `restriction`
+--
+
+CREATE TABLE `restriction` (
+  `listing_id` bigint(20) NOT NULL,
+  `indoor_smoke` bigint(20) NOT NULL,
+  `host_parties` bigint(20) NOT NULL,
+  `pets` bigint(20) NOT NULL,
+  `un_vaccinated` bigint(20) NOT NULL,
+  `late_night_entry` bigint(20) NOT NULL,
+  `unknown_guest` bigint(20) NOT NULL,
+  `anything_specific` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `review_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `user_name` bigint(20) NOT NULL,
+  `lister_id` bigint(20) NOT NULL,
+  `lister_name` bigint(20) NOT NULL,
+  `stars` bigint(20) NOT NULL,
+  `description` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_images`
+--
+
+CREATE TABLE `review_images` (
+  `review_image_id` bigint(20) NOT NULL,
+  `review_id` bigint(20) NOT NULL,
+  `review_filename` bigint(20) NOT NULL,
+  `review_targetlocation` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `safety_measure`
+--
+
+CREATE TABLE `safety_measure` (
+  `listing_id` bigint(20) NOT NULL,
+  `smoke_alarm` bigint(20) NOT NULL,
+  `first_aid_kit` bigint(20) NOT NULL,
+  `fire_extinguisher` bigint(20) NOT NULL,
+  `CO_alarm` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `time_slot_shortstays`
+--
+
+CREATE TABLE `time_slot_shortstays` (
+  `time_id` bigint(20) NOT NULL,
+  `times` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `user_email` varchar(255) NOT NULL,
+  `user_phone_num` bigint(20) NOT NULL,
+  `user_nid` bigint(20) NOT NULL,
+  `user_dob` date NOT NULL,
+  `user_address` varchar(255) NOT NULL,
+  `is_lister` bigint(20) DEFAULT NULL,
+  `FCM_token` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_pictures`
+--
+
+CREATE TABLE `user_pictures` (
+  `user_picture_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `user_filename` bigint(20) NOT NULL,
+  `user_targetlocation` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`admin_id`);
+
+--
+-- Indexes for table `amenities`
+--
+ALTER TABLE `amenities`
+  ADD PRIMARY KEY (`listing_id`);
+
+--
+-- Indexes for table `booking`
+--
+ALTER TABLE `booking`
+  ADD PRIMARY KEY (`booking_id`);
+
+--
+-- Indexes for table `lister_dashboard`
+--
+ALTER TABLE `lister_dashboard`
+  ADD PRIMARY KEY (`lister_id`);
+
+--
+-- Indexes for table `lister_nid`
+--
+ALTER TABLE `lister_nid`
+  ADD PRIMARY KEY (`listing_nid_id`);
+
+--
+-- Indexes for table `lister_pictures`
+--
+ALTER TABLE `lister_pictures`
+  ADD PRIMARY KEY (`lister_id`);
+
+--
+-- Indexes for table `lister_user`
+--
+ALTER TABLE `lister_user`
+  ADD PRIMARY KEY (`lister_id`);
+
+--
+-- Indexes for table `listing`
+--
+ALTER TABLE `listing`
+  ADD PRIMARY KEY (`listing_id`);
+
+--
+-- Indexes for table `listing_images`
+--
+ALTER TABLE `listing_images`
+  ADD PRIMARY KEY (`listing_img_id`);
+
+--
+-- Indexes for table `restriction`
+--
+ALTER TABLE `restriction`
+  ADD PRIMARY KEY (`listing_id`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`review_id`);
+
+--
+-- Indexes for table `review_images`
+--
+ALTER TABLE `review_images`
+  ADD PRIMARY KEY (`review_image_id`);
+
+--
+-- Indexes for table `safety_measure`
+--
+ALTER TABLE `safety_measure`
+  ADD PRIMARY KEY (`listing_id`);
+
+--
+-- Indexes for table `time_slot_shortstays`
+--
+ALTER TABLE `time_slot_shortstays`
+  ADD PRIMARY KEY (`time_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `user_pictures`
+--
+ALTER TABLE `user_pictures`
+  ADD PRIMARY KEY (`user_picture_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `amenities`
+--
+ALTER TABLE `amenities`
+  MODIFY `listing_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `booking`
+--
+ALTER TABLE `booking`
+  MODIFY `booking_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `lister_dashboard`
+--
+ALTER TABLE `lister_dashboard`
+  MODIFY `lister_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `lister_nid`
+--
+ALTER TABLE `lister_nid`
+  MODIFY `listing_nid_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `lister_pictures`
+--
+ALTER TABLE `lister_pictures`
+  MODIFY `lister_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `lister_user`
+--
+ALTER TABLE `lister_user`
+  MODIFY `lister_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `listing`
+--
+ALTER TABLE `listing`
+  MODIFY `listing_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `listing_images`
+--
+ALTER TABLE `listing_images`
+  MODIFY `listing_img_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `restriction`
+--
+ALTER TABLE `restriction`
+  MODIFY `listing_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `review_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review_images`
+--
+ALTER TABLE `review_images`
+  MODIFY `review_image_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `safety_measure`
+--
+ALTER TABLE `safety_measure`
+  MODIFY `listing_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `time_slot_shortstays`
+--
+ALTER TABLE `time_slot_shortstays`
+  MODIFY `time_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_pictures`
+--
+ALTER TABLE `user_pictures`
+  MODIFY `user_picture_id` bigint(20) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
