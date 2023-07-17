@@ -4,7 +4,7 @@
 session_start();
 
 if(empty($_SESSION['admin_id'])) {
-  header("Location:dashboard.php");
+  header("Location:index.php");
   exit();
 }
 
@@ -109,7 +109,7 @@ if(empty($_SESSION['admin_id'])) {
 								<h6>ADMIN, AK</h6>
 								<p class="text-muted mb-0">Administrator</p>
 							</div>
-						</div> <a class="dropdown-item" href="profile.html">My Profile</a> <a class="dropdown-item" href="settings.html">Account Settings</a> <a class="dropdown-item" href="../crud/logout.php">Logout</a> </div>
+						</div> <a class="dropdown-item" href="profile.html">My Profile</a> <a class="dropdown-item" href="settings.html">Account Settings</a> <a class="dropdown-item" href="crud/logout.php">Logout</a> </div>
 				</li>
 			</ul>
 			<div class="top-nav-search">
@@ -134,26 +134,29 @@ if(empty($_SESSION['admin_id'])) {
 						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Customers </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
-								<li><a href="all-customer.html"> All customers </a></li>
+								<li><a href="all-customer.html"> All Customers </a></li>
+								<li><a href="all-customer.html"> All Listers </a></li>
 								<li><a href="edit-customer.html"> Edit Customer </a></li>
+								<li><a href="edit-customer.html"> Edit Lister </a></li>
 								<li><a href="add-customer.html"> Add Customer </a></li>
+								<li><a href="add-customer.html"> Add Lister </a></li>
 							</ul>
 						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Rooms </span> <span class="menu-arrow"></span></a>
+						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Stays </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
-								<li><a href="all-rooms.html">All Rooms </a></li>
-								<li><a href="edit-room.html"> Edit Rooms </a></li>
-								<li><a href="add-room.html"> Add Rooms </a></li>
+								<li><a href="all-rooms.html">All Stays </a></li>
+								<li><a href="edit-room.html"> Edit Stays </a></li>
+								<li><a href="add-room.html"> Add Stays </a></li>
 							</ul>
 						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Staff </span> <span class="menu-arrow"></span></a>
+						<!-- <li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Staff </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="all-staff.html">All Staff </a></li>
 								<li><a href="edit-staff.html"> Edit Staff </a></li>
 								<li><a href="add-staff.html"> Add Staff </a></li>
 							</ul>
-						</li>
-						<li> <a href="pricing.html"><i class="far fa-money-bill-alt"></i> <span>Pricing</span></a> </li>
+						</li> -->
+						<!-- <li> <a href="pricing.html"><i class="far fa-money-bill-alt"></i> <span>Pricing</span></a> </li>
 						<li class="submenu"> <a href="#"><i class="fas fa-share-alt"></i> <span> Apps </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="chat.html"><i class="fas fa-comments"></i><span> Chat </span></a></li>
@@ -180,7 +183,7 @@ if(empty($_SESSION['admin_id'])) {
 								<li><a href="holidays.html">Holidays </a></li>
 								<li><a href="attendance.html">Attendance </a></li>
 							</ul>
-						</li>
+						</li> -->
 						<li class="submenu"> <a href="#"><i class="far fa-money-bill-alt"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="invoices.html">Invoices </a></li>
@@ -190,23 +193,23 @@ if(empty($_SESSION['admin_id'])) {
 								<li><a href="provident-fund.html">Provident Fund </a></li>
 							</ul>
 						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
+						<!-- <li class="submenu"> <a href="#"><i class="fas fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="salary.html">Employee Salary </a></li>
 								<li><a href="salary-veiw.html">Payslip </a></li>
 							</ul>
-						</li>
-						<li> <a href="calendar.html"><i class="fas fa-calendar-alt"></i> <span>Calendar</span></a> </li>
-						<li class="submenu"> <a href="#"><i class="fe fe-table"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
+						</li> -->
+						<!-- <li> <a href="calendar.html"><i class="fas fa-calendar-alt"></i> <span>Calendar</span></a> </li> -->
+						<!-- <li class="submenu"> <a href="#"><i class="fe fe-table"></i> <span> Blog </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="blog.html">Blog </a></li>
 								<li><a href="blog-details.html">Blog Veiw </a></li>
 								<li><a href="add-blog.html">Add Blog </a></li>
 								<li><a href="edit-blog.html">Edit Blog </a></li>
 							</ul>
-						</li>
-						<li> <a href="assets.html"><i class="fas fa-cube"></i> <span>Assests</span></a> </li>
-						<li> <a href="activities.html"><i class="far fa-bell"></i> <span>Activities</span></a> </li>
+						</li> -->
+						<!-- <li> <a href="assets.html"><i class="fas fa-cube"></i> <span>Assests</span></a> </li> -->
+						<li> <a href="activities.html"><i class="far fa-bell"></i> <span>Experiences</span></a> </li>
 						<li class="submenu"> <a href="#"><i class="fe fe-table"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="expense-reports.html">Expense Report </a></li>
@@ -214,7 +217,7 @@ if(empty($_SESSION['admin_id'])) {
 							</ul>
 						</li>
 						<li> <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a> </li>
-						<li class="list-divider"></li>
+						<!-- <li class="list-divider"></li>
 						<li class="menu-title mt-3"> <span>UI ELEMENTS</span> </li>
 						<li class="submenu"> <a href="#"><i class="fas fa-laptop"></i> <span> Components </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
@@ -222,24 +225,24 @@ if(empty($_SESSION['admin_id'])) {
 								<li><a href="typography.html">Typography </a></li>
 								<li><a href="tabs.html">Tabs </a></li>
 							</ul>
-						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-edit"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+						</li> -->
+						<!-- <li class="submenu"> <a href="#"><i class="fas fa-edit"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="form-basic-inputs.html">Basic Input </a></li>
 								<li><a href="form-input-groups.html">Input Groups </a></li>
 								<li><a href="form-horizontal.html">Horizontal Form </a></li>
 								<li><a href="form-vertical.html">Vertical Form </a></li>
 							</ul>
-						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-table"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
+						</li> -->
+						<!-- <li class="submenu"> <a href="#"><i class="fas fa-table"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="tables-basic.html">Basic Table </a></li>
 								<li><a href="tables-datatables.html">Data Table </a></li>
 							</ul>
 						</li>
 						<li class="list-divider"></li>
-						<li class="menu-title mt-3"> <span>EXTRAS</span> </li>
-						<li class="submenu"> <a href="#"><i class="fas fa-columns"></i> <span> Pages </span> <span class="menu-arrow"></span></a>
+						<li class="menu-title mt-3"> <span>EXTRAS</span> </li> -->
+						<!-- <li class="submenu"> <a href="#"><i class="fas fa-columns"></i> <span> Pages </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="login.html">Login </a></li>
 								<li><a href="register.html">Register </a></li>
@@ -252,13 +255,13 @@ if(empty($_SESSION['admin_id'])) {
 								<li><a href="error-500.html">500 Error </a></li>
 								<li><a href="blank-page.html">Blank Page </a></li>
 							</ul>
-						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-share-alt"></i> <span> Multi Level </span> <span class="menu-arrow"></span></a>
+						</li> -->
+						<!-- <li class="submenu"> <a href="#"><i class="fas fa-share-alt"></i> <span> Multi Level </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="">Level 1 </a></li>
 								<li><a href="">Level 2 </a></li>
 							</ul>
-						</li>
+						</li> -->
 					</ul>
 				</div>
 			</div>
