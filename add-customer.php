@@ -101,6 +101,7 @@
 			</ul>
 		</div>
 	<?php require("header.php"); ?>
+	
 		<div class="page-wrapper">
 			<div class="content container-fluid">
 				<div class="page-header">
