@@ -297,6 +297,17 @@ CREATE TABLE `user_pictures` (
 --
 
 --
+-- Table structure for table `user_nid`
+--
+
+CREATE TABLE `user_nid` (
+  `user_nid_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `user_nid_filename` bigint(20) NOT NULL,
+  `user_nid_targetlocation` bigint(20) NOT NULL
+)
+
+--
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`

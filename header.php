@@ -2,7 +2,7 @@
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
-						<li class="active"> <a href="index.php"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a> </li>
+						<li class="active"> <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a> </li>
 						<li class="list-divider"></li>
 						<li class="submenu"> <a href="#"><i class="fas fa-suitcase"></i> <span> Booking </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
@@ -13,12 +13,12 @@
 						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Customers </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
-								<li><a href="all-customer.php"> All Users </a></li>
-								<li><a href="all-customer.php"> All Hosting </a></li>
-								<li><a href="edit-customer.php"> Edit Users </a></li>
-								<li><a href="edit-customer.php"> Edit Hosting </a></li>
-								<li><a href="add-customer.php"> Add Users </a></li>
-								<li><a href="add-customer.php"> Add Hosting </a></li>
+								<li><a href="all-user.php"> All Users </a></li>
+								<li><a href="all-hosting.php"> All Hosting </a></li>
+								<li><a href="edit-user.php"> Edit Users </a></li>
+								<li><a href="edit-hosting.php"> Edit Hosting </a></li>
+								<li><a href="add-user.php"> Add Users </a></li>
+								<li><a href="add-hosting.php"> Add Hosting </a></li>
 							</ul>
 						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Stays </span> <span class="menu-arrow"></span></a>
