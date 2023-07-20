@@ -1,6 +1,6 @@
 <?php
 session_start(); // Start or resume the current session
-echo 'hello';
+
 
 // Clear all session variables
 $_SESSION = array();
