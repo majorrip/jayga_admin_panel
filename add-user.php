@@ -17,7 +17,7 @@ if(empty($_SESSION['admin_id'])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Hotel Dashboard Template</title>
+	<title>Jayga - Add User</title>
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -121,12 +121,12 @@ if(empty($_SESSION['admin_id'])) {
 				<div class="page-header">
 					<div class="row align-items-center">
 						<div class="col">
-							<h3 class="page-title mt-5">Add Customer</h3> </div>
+							<h3 class="page-title mt-5">Add User</h3> </div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-12">
-					<form action="process_form.php" method="post">
+					<form action="crud/create-user.php" method="post" enctype="multipart/form-data">
 							<div class="row formtype">
 								<div class="col-md-4">
 									<div class="form-group">
@@ -155,7 +155,7 @@ if(empty($_SESSION['admin_id'])) {
 									<div class="form-group">
 										<label>Birth Date</label>
 										<div class="cal-icon">
-											<input type="text"  name="birthdate" class="form-control datetimepicker"> </div>
+											<input type="Date"  name="birthdate" class="form-control"> </div>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -168,10 +168,10 @@ if(empty($_SESSION['admin_id'])) {
 									<div class="form-group">
 										<label> Upload Customer Picture</label>
 										<div class="custom-file mb-3">
-										<input type="file" class="custom-file-input" name="user_pic[]" multiple onchange="displayFileNames(event)">
-  												<div id="file-names"></div>
-											<!-- <input type="file" name="customer_nid[]" class="form-control input-lg" multiple > -->
-											<label class="custom-file-label" for="customFile">Choose file</label>
+										<!-- <input type="file" class="custom-file-input" name="user_pic[]" multiple onchange="displayFileNames(event)">
+  												<div id="file-names"></div> -->
+											<input type="file" name="user_pic[]" class="form-control input-lg" multiple >
+											<!-- <label class="custom-file-label" for="customFile">Choose file</label> -->
 										</div>
 									</div>
 								</div>
@@ -179,10 +179,10 @@ if(empty($_SESSION['admin_id'])) {
 									<div class="form-group">
 										<label>Upload Customer NID</label>
 										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" name="user_nid[]" multiple onchange="displayFileNames(event)">
-  												<div id="file-names"></div>
-											<!-- <input type="file" name="customer_nid[]" class="form-control input-lg" multiple > -->
-											<label class="custom-file-label" for="customFile">Choose file</label>
+											<!-- <input type="file" class="custom-file-input" name="user_nid[]" multiple onchange="displayFileNames(event)">
+  												<div id="file-names"></div> -->
+											<input type="file" name="user_nid[]" class="form-control input-lg" multiple >
+											<!-- <label class="custom-file-label" for="customFile">Choose file</label> -->
 										</div>
 									</div>
 								</div>
@@ -205,15 +205,13 @@ if(empty($_SESSION['admin_id'])) {
 									</label>
 										</div>	
 									</div>
-								</div>
-
-								
-
+								</div>								
 							</div>
+							<button type="post" class="btn btn-primary buttonedit1">Create User</button>
 						</form>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary buttonedit1">Create Customer</button>
+				
 			</div>
 		</div>
 	</div>
@@ -233,25 +231,7 @@ if(empty($_SESSION['admin_id'])) {
 		});
 	});
 	</script>
-	<script>
-    function displayFileNames(event) {
-      const input = event.target;
-      const fileNamesDiv = document.getElementById("file-names");
-      fileNamesDiv.innerHTML = ""; // Clear the previous file names
 
-      if (input.files && input.files.length > 0) {
-        for (const file of input.files) {
-          const fileName = document.createElement("p");
-          fileName.textContent = file.name;
-          fileNamesDiv.appendChild(fileName);
-        }
-      } else {
-        const noFilesMsg = document.createElement("p");
-        noFilesMsg.textContent = "No files selected.";
-        fileNamesDiv.appendChild(noFilesMsg);
-      }
-    }
-  </script>
 </body>
 
 </html>
