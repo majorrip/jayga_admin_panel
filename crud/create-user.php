@@ -50,78 +50,41 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     
-    // Check if profile picture were uploaded without errors "YmdHis" (Year, Month, Day, Hour, Minute, Second)
-        if (isset($_FILES["user_pic"])) {
-            $num_files = count($_FILES["user_pic"]["name"]);
-            for ($i = 0; $i < $num_files; $i++) {
-                if ($_FILES["user_pic"]["error"][$i] == 0) {
-                    // Check if file is an image
-                    $file_type = $_FILES["user_pic"]["type"][$i];
-                    if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
-                        // Generate unique file name based on current date and time
-                        $file_name2 = $_FILES["user_pic"]["name"][$i];
-                        $file_extension = pathinfo($file_name2, PATHINFO_EXTENSION);
-                        $file_name2 =$userid . "_profile-pic_" .$current_date . "-" . $original_name . "." . $file_extension;
-                        
-                        // Move file to permanent location on server
-                        $temp_name1 = $_FILES["user_pic"]["tmp_name"][$i];
-                        $upload_dir = "upload/user/profile_pic/";
-                        $target_file2 = $upload_dir . basename($file_name2);
-                        move_uploaded_file($temp_name1, $target_file2);
-        
-                        // Insert record into database
-                        $sql_list = "INSERT INTO user_pictures (user_id, user_filename, user_targetlocation) VALUES ('$userid','$file_name2', '$target_file2')";
-                        if (mysqli_query($conn, $sql_list)) {
-                            echo "File uploaded successfully";
-                        } else {
-                            echo "Error: " . $sql_list . "
-                            <br>" . mysqli_error($conn);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        
-     // Check if nid_files were uploaded
-     if (isset($_FILES["user_nid"])) {
-        $num_files = count($_FILES["user_nid"]["name"]);
+    // Check if profile_pic were uploaded
+    if (isset($_FILES["user_pic"])) {
+        $num_files = count($_FILES["user_pic"]["name"]);
         for ($i = 0; $i < $num_files; $i++) {
-            if ($_FILES["user_nid"]["error"][$i] == 0) {
+            if ($_FILES["user_pic"]["error"][$i] == 0) {
                 // Check if file is an image
-                $file_type = $_FILES["user_nid"]["type"][$i];
-                if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg")) {
+                $file_type = $_FILES["user_pic"]["type"][$i];
+                if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
+                    // Generate unique file name based on current date and time
+                    $file_name2 = $_FILES["user_pic"]["name"][$i];
+                    $file_extension = pathinfo($file_name2, PATHINFO_EXTENSION);
+                    $file_name2 = $userid . "_profile-pic_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension;
                     
-                    $original_name = $_FILES["user_nid"]["name"][$i];
-                    $file_extension = pathinfo($original_name, PATHINFO_EXTENSION);
-                    $new_file_name = $userid . "_NID_" .$current_date . "-" . $original_name . "." . $file_extension;
-                    
-                    // Move file to permanent location on server with new name
-                    $temp_name = $_FILES["user_nid"]["tmp_name"][$i];
-                    $upload_dir = "upload/user/nid/";
-                    $target_file1 = $upload_dir . basename($new_file_name);
-                    move_uploaded_file($temp_name, $target_file1);
+                    // Move file to permanent location on server
+                    $temp_name = $_FILES["user_pic"]["tmp_name"][$i];
+                    $upload_dir = "uploads/user/profile_pic/";
+                    $target_file2 = $upload_dir . basename($file_name2);
+                    move_uploaded_file($temp_name, $target_file2);
     
-                    // Insert record into database with new file name
-                    $sql_nid = "INSERT INTO user_nid (user_id,user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$new_file_name', '$target_file1')";
-                    if (mysqli_query($conn, $sql_nid)) {
-                        echo "NID image uploaded successfully";
+                    // Insert record into database
+                    $sql_list = "INSERT INTO user_pictures (user_id, user_filename, user_targetlocation) VALUES ('$userid','$file_name2', '$target_file2')";
+                    if (mysqli_query($conn, $sql_list)) {
+                        echo "File uploaded successfully";
                     } else {
-                        echo "Error: " . $sql_nid . "<br>" . mysqli_error($conn);
+                        echo "Error: " . $sql_list . "
+                        <br>" . mysqli_error($conn);
                     }
-                } else {
-                    echo "Error: NID image must be in JPG or PNG format";
                 }
-            } else {
-                echo "Error uploading NID image: " . $_FILES["nid_image"]["error"][$i];
             }
         }
     }
 
 
     // Close the database connection
-    header("Location: add-user.php");
+    header("Location: ../add-user.php");
             $conn->close();
 	        exit(); 
 }
