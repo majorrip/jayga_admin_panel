@@ -114,144 +114,58 @@
 					<div class="col-lg-12">
 						<form>
 							<div class="row formtype">
+
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Customer Name</label>
 										<input class="form-control" type="text" > </div>
 								</div>
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Email</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>Guest Number Allowed</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
+
+								
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Phone number</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>How many Bedrooms?</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>How many Bathrooms?</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>Give your Listing a title</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>Would you allow short stay?</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>Is it peaceful?</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
+
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
+										<label>Customer Name</label>
+										<input class="form-control" name="name" type="text" > </div>
 								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>User NID</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>Birth Date</label>
-										<div class="cal-icon">
-											<input type="text" class="form-control datetimepicker"> </div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>Customer Adress</label>
-										<input class="form-control" type="text">
-									</div>
-								</div>
+
+
+
 								<div class="col-md-4">
 									<div class="form-group">
 										<label> Upload Customer Picture</label>
