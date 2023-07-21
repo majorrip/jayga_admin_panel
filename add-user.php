@@ -200,7 +200,7 @@ if(empty($_SESSION['admin_id'])) {
 									<div class="custom-file mb-3">
 										<br>
 									<label>
-									<input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									<input type="checkbox" name="a_host" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
 										Are you a Host?
 									</label>
 										</div>	

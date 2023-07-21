@@ -14,11 +14,11 @@
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Customers </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="all-user.php"> All Users </a></li>
-								<li><a href="all-hosting.php"> All Hosting </a></li>
+								<li><a href="all-listing.php"> All Listing </a></li>
 								<li><a href="edit-user.php"> Edit Users </a></li>
-								<li><a href="edit-hosting.php"> Edit Hosting </a></li>
+								<li><a href="edit-listing.php"> Edit Listing </a></li>
 								<li><a href="add-user.php"> Add Users </a></li>
-								<li><a href="add-hosting.php"> Add Hosting </a></li>
+								<li><a href="add-listing.php"> Add Listing </a></li>
 							</ul>
 						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Stays </span> <span class="menu-arrow"></span></a>
