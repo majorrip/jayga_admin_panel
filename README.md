@@ -2,10 +2,10 @@
 when downloading create a folder named "uploads"
 the structure of uploads is
 
-        uploads
-  lister      user
+           uploads
+  lister              user
 
-  listings    nid
-  nid         profile_pic
+  listings            nid
+  nid                 profile_pic
 
   also use the latest sql file in the database file
