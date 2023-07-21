@@ -205,6 +205,42 @@
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
+										<label>User NID</label>
+										<input class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>User NID</label>
+										<input class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>User NID</label>
+										<input class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>User NID</label>
+										<input class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>User NID</label>
+										<input class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>User NID</label>
+										<input class="form-control" type="text">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
 										<label>Birth Date</label>
 										<div class="cal-icon">
 											<input type="text" class="form-control datetimepicker"> </div>
