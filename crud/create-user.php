@@ -14,6 +14,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
+
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -66,8 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
 
-
-
         if (isset($_FILES["user_nid"])) {
             $num_files = count($_FILES["user_nid"]["name"]);
             for ($i = 0; $i < $num_files; $i++) {
@@ -78,16 +78,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         // Generate unique file name based on current date and time
                         $file_name3 = $_FILES["user_nid"]["name"][$i];
                         $file_extension3 = pathinfo($file_name3, PATHINFO_EXTENSION);
-                        $file_name3 = $userid . "_profile-pic_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension3;
+                        $file_name3 = $userid . "_NID_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension3;
                         
-                        // Move file to permanent location on server
+                        // Move file to permanent location on server (for lister_nid)
                         $temp_name3 = $_FILES["user_nid"]["tmp_name"][$i];
-                        $upload_dir3 = "../uploads/lister/nid/";
+                        $upload_dir3 = "../uploads/lister/lister_nid/";
                         $target_file3 = $upload_dir3 . basename($file_name3);
                         move_uploaded_file($temp_name3, $target_file3);
+        
+                        // Copy file to permanent location on server (for user_nid)
+                        $upload_dir_user = "../uploads/user/user_nid/";
+                        $target_file_user = $upload_dir_user . basename($file_name3);
+                        copy($target_file3, $target_file_user);
 
-                        // Insert record into database
+                        
+        
+                        // Insert record into database (for lister_nid)
                         $sql_list3 = "INSERT INTO lister_nid (lister_user_id, lister_nid_pic_name, listing_nid_pic_location) VALUES ('$userid','$file_name3', '$target_file3')";
+                        if (mysqli_query($conn, $sql_list3)) {
+                            echo "nid uploaded successfully as a lister\n";
+                        } else {
+                            echo "Error: " . $sql_list . "
+                            <br>" . mysqli_error($conn);
+                        }
+
+                        // Insert record into database (for user_nid)
+                        $sql_list3 = "INSERT INTO user_nid (user_id, user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$file_name3', '$target_file_user')";
                         if (mysqli_query($conn, $sql_list3)) {
                             echo "nid uploaded successfully as a lister\n";
                         } else {
@@ -98,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 }
             }
         }
+        
         
     }
     
@@ -134,35 +151,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (isset($_FILES["user_nid"])) {
-        $num_files = count($_FILES["user_nid"]["name"]);
-        for ($i = 0; $i < $num_files; $i++) {
-            if ($_FILES["user_nid"]["error"][$i] == 0) {
-                // Check if file is an image
-                $file_type = $_FILES["user_nid"]["type"][$i];
-                if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
-                    // Generate unique file name based on current date and time
-                    $file_name2 = $_FILES["user_nid"]["name"][$i];
-                    $file_extension2 = pathinfo($file_name2, PATHINFO_EXTENSION);
-                    $file_name2 = $userid . "_NID_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension2;
-                    
-                    // Move file to permanent location on server
-                    $temp_name2 = $_FILES["user_nid"]["tmp_name"][$i];
-                    $upload_dir2 = "../uploads/user/nid/";
-                    $target_file2 = $upload_dir2 . basename($file_name2);
-                    move_uploaded_file($temp_name2, $target_file2);
-    
+    $num_files = count($_FILES["user_nid"]["name"]);
+    for ($i = 0; $i < $num_files; $i++) {
+        if ($_FILES["user_nid"]["error"][$i] == 0) {
+            // Check if file is an image
+            $file_type = $_FILES["user_nid"]["type"][$i];
+            if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
+                // Generate unique file name based on current date and time
+                $file_name1 = $_FILES["user_nid"]["name"][$i];
+                $file_extension1 = pathinfo($file_name1, PATHINFO_EXTENSION);
+                $file_name1 = $userid . "_user-nid_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension1;
+
+                // Move file to permanent location on server
+                $temp_name1 = $_FILES["user_nid"]["tmp_name"][$i];
+                $upload_dir1 = "../uploads/user/user_nid/";
+                $target_file1 = $upload_dir1 . basename($file_name1);
+
+                // Validate if the file was successfully moved
+                if (move_uploaded_file($temp_name1, $target_file1)) {
                     // Insert record into database
-                    $sql_list = "INSERT INTO user_nid (user_id, user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$file_name2', '$target_file2')";
-                    if (mysqli_query($conn, $sql_list)) {
-                        echo "nid uploaded successfully from user";
+                    $sql_list1 = "INSERT INTO user_nid (user_id, user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$file_name1', '$target_file1')";
+                    if (mysqli_query($conn, $sql_list1)) {
+                        echo "User NID uploaded successfully.\n";
                     } else {
-                        echo "Error: " . $sql_list . "
-                        <br>" . mysqli_error($conn);
+                        echo "Error inserting NID record into the database: " . mysqli_error($conn) . "\n";
                     }
+                } else {
+                    echo "Error moving NID file to the target location.\n";
                 }
+            } else {
+                echo "Invalid file type. Only JPEG, PNG, JPG, and BMP images are allowed.\n";
             }
+        } else {
+            echo "Error uploading NID file: " . $_FILES["user_nid"]["error"][$i] . "\n";
         }
     }
+}
+
 
 
     // Close the database connection
