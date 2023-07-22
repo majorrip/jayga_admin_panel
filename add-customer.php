@@ -1,3 +1,8 @@
+<?php
+
+//Including Database Connection From db.php file to avoid rewriting in all files
+require_once("database/connection/db.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 

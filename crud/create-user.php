@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($conn->query($sql) === TRUE) {
         // Data inserted successfully
-        echo "Customer data inserted into the database.";
+        echo "Customer data inserted into the user database.\n";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         if ($conn->query($sql1) === TRUE) {
             // Data inserted successfully
-            echo "Customer data inserted into the database.";
+            echo "Customer data inserted into the lister database.";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         // Insert record into database
                         $sql_list3 = "INSERT INTO lister_nid (lister_user_id, lister_nid_pic_name, listing_nid_pic_location) VALUES ('$userid','$file_name3', '$target_file3')";
                         if (mysqli_query($conn, $sql_list3)) {
-                            echo "File uploaded successfully";
+                            echo "nid uploaded successfully as a lister\n";
                         } else {
                             echo "Error: " . $sql_list . "
                             <br>" . mysqli_error($conn);
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     // Insert record into database
                     $sql_list1 = "INSERT INTO user_pictures (user_id, user_filename, user_targetlocation) VALUES ('$userid','$file_name1', '$target_file1')";
                     if (mysqli_query($conn, $sql_list1)) {
-                        echo "File uploaded successfully";
+                        echo "profile pic uploaded successfully from user\n";
                     } else {
                         echo "Error: " . $sql_list . "
                         <br>" . mysqli_error($conn);
@@ -142,19 +142,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
                     // Generate unique file name based on current date and time
                     $file_name2 = $_FILES["user_nid"]["name"][$i];
-                    $file_extension = pathinfo($file_name2, PATHINFO_EXTENSION);
-                    $file_name2 = $userid . "_profile-pic_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension;
+                    $file_extension2 = pathinfo($file_name2, PATHINFO_EXTENSION);
+                    $file_name2 = $userid . "_NID_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension2;
                     
                     // Move file to permanent location on server
-                    $temp_name = $_FILES["user_nid"]["tmp_name"][$i];
-                    $upload_dir = "../uploads/user/nid/";
-                    $target_file2 = $upload_dir . basename($file_name2);
-                    move_uploaded_file($temp_name, $target_file2);
+                    $temp_name2 = $_FILES["user_nid"]["tmp_name"][$i];
+                    $upload_dir2 = "../uploads/user/nid/";
+                    $target_file2 = $upload_dir2 . basename($file_name2);
+                    move_uploaded_file($temp_name2, $target_file2);
     
                     // Insert record into database
                     $sql_list = "INSERT INTO user_nid (user_id, user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$file_name2', '$target_file2')";
                     if (mysqli_query($conn, $sql_list)) {
-                        echo "File uploaded successfully";
+                        echo "nid uploaded successfully from user";
                     } else {
                         echo "Error: " . $sql_list . "
                         <br>" . mysqli_error($conn);
@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // Close the database connection
-    header("Location: ../add-user.php");
+    // header("Location: ../add-user.php");
             $conn->close();
 	        exit(); 
 }

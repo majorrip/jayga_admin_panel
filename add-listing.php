@@ -1,3 +1,8 @@
+<?php
+
+//Including Database Connection From db.php file to avoid rewriting in all files
+require_once("database/connection/db.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +17,9 @@
 	<link rel="stylesheet" href="assets/css/feathericon.min.css">
 	<link rel="stylesheet" href="assets/plugins/morris/morris.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datetimepicker.min.css">
-	<link rel="stylesheet" href="assets/css/style.css"> </head>
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+ </head>
 
 <body>
 	<div class="main-wrapper">
@@ -107,61 +114,187 @@
 				<div class="page-header">
 					<div class="row align-items-center">
 						<div class="col">
-							<h3 class="page-title mt-5">Add Customer</h3> </div>
+							<h3 class="page-title mt-5">Add Lister</h3> </div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-lg-12">
-						<form>
+					<form action="crud/create-listing.php" method="post" enctype="multipart/form-data">
 							<div class="row formtype">
 
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Name</label>
-										<input class="form-control" type="text" > </div>
+										<label>Lister Name</label>
+										<select class="form-control" id="district" name="district" required>
+                        					<option selected="" value="">Select Lister_name and ID</option> 
+													<?php
+														$sql="SELECT * FROM lister_user";
+														$result=$conn->query($sql);
+										
+														if($result->num_rows > 0) {
+															while($row = $result->fetch_assoc()) {
+															echo "
+															<option value='".$row['lister_name']."' data-id='".$row['lister_id']."'>".$row['lister_name']."</option>";
+															}
+														}
+													?>
+                      					</select>
+									</div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Guest Number Allowed</label>
-										<input class="form-control" name="name" type="text" > </div>
+										<input class="form-control" name="guest_num" type="text" > </div>
 								</div>
 
 								
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>How many Bedrooms?</label>
-										<input class="form-control" name="name" type="text" > </div>
+										<input class="form-control" name="bedroom_num" type="text" > </div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>How many Bathrooms?</label>
-										<input class="form-control" name="name" type="text" > </div>
+										<input class="form-control" name="bathroom_num" type="text" > </div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Give your Listing a title</label>
-										<input class="form-control" name="name" type="text" > </div>
+										<input class="form-control" name="listing_title" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Describe Listing?</label>
+										<!-- <input class="form-control" name="name" type="text" >  -->
+										<textarea class="form-control" rows="5" name="describe_listing"></textarea>
+									</div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Would you allow short stay?</label>
-										<input class="form-control" name="name" type="text" > </div>
+										<br><input type="checkbox" name="allow_short_stay" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									</div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Is it peaceful?</label>
-										<input class="form-control" name="name" type="text" > </div>
+										<br><input type="checkbox" name="is_it_peaceful" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									 </div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Name</label>
+										<label>Is it unique?</label>
+										<br><input type="checkbox" name="is_it_unique" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Is it family friendly?</label>
+										<br><input type="checkbox" name="is_it_family_friendly" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger"></div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Is it stylish?</label>
+										<br><input type="checkbox" name="is_it_stylish" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Is it central?</label>
+										<br><input type="checkbox" name="is_it_central" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Is it spacious?</label>
+										<br><input type="checkbox" name="is_it_spacious" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									 </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>What is the price set for a day stay?</label>
+										<input class="form-control" name="price" type="text" > </div>
+								</div>
+
+								<!-- <div class="col-md-4">
+									<div class="form-group">
+										<label>What is the price for short stay?</label>
 										<input class="form-control" name="name" type="text" > </div>
+								</div> -->
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>What is the listing adress?</label>
+										<input class="form-control" name="listing_address" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Listing zip code?</label>
+										<input class="form-control" name="zip_code" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Which town is it in?</label>
+										<input class="form-control" name="town" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Does it have a private bathroom?</label>
+										<br><input type="checkbox" name="private_bathroom" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									 </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Is breakfast available?</label>
+										<br><input type="checkbox" name="breakfast_available" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									 </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Is room lock available?</label>
+										<br><input type="checkbox" name="room_lock" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger"> 
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Will there be anyone else in the house?</label>
+										<br><input type="checkbox" name="anyone_else" value= 1 checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Listing Type</label>
+										<select class="form-control" name="listing_type">
+											<option>Select</option>
+											<option>Room</option>
+											<option>Appartment</option>
+											<option>Hotel</option>
+											<!-- <option>King</option>
+											<option>Suite</option>
+											<option>Villa</option> -->
+										</select>
+										
+									</div>
 								</div>
 
 
@@ -175,7 +308,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<!-- <div class="col-md-4">
 									<div class="form-group">
 										<label>Upload Customer NID</label>
 										<div class="custom-file mb-3">
@@ -183,12 +316,12 @@
 											<label class="custom-file-label" for="customFile">Choose file</label>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</form>
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary buttonedit1">Create Customer</button>
+				<button type="button" class="btn btn-primary buttonedit1">Create Listings</button>
 			</div>
 		</div>
 	</div>
@@ -200,6 +333,7 @@
 	<script src="assets/js/moment.min.js"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="assets/js/script.js"></script>
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 	<script>
 	$(function() {
 		$('#datetimepicker3').datetimepicker({
