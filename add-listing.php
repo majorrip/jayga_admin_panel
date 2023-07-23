@@ -9,7 +9,7 @@ require_once("database/connection/db.php");
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Hotel Dashboard Template</title>
+	<title>Jayga Admin - Create Listing</title>
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -122,43 +122,48 @@ require_once("database/connection/db.php");
 					<form action="crud/create-listing.php" method="post" enctype="multipart/form-data">
 							<div class="row formtype">
 
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>Lister Name</label>
-										<select class="form-control" id="district" name="district" required>
-                        					<option selected="" value="">Select Lister_name and ID</option> 
-													<?php
-														$sql="SELECT * FROM lister_user";
-														$result=$conn->query($sql);
-										
-														if($result->num_rows > 0) {
-															while($row = $result->fetch_assoc()) {
-															echo "
-															<option value='".$row['lister_name']."' data-id='".$row['lister_id']."'>".$row['lister_name']."</option>";
-															}
-														}
-													?>
-                      					</select>
-									</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Lister ID and Name</label>
+									<select class="form-control" id="lister_id" name="lister_id" required>
+										<option selected="" value="">Select Lister ID and Name</option>
+										<?php
+										// Assuming a database connection is established and stored in the variable $conn
+										$sql = "SELECT * FROM lister_user";
+										$result = $conn->query($sql);
+
+										if ($result->num_rows > 0) {
+											while ($row = $result->fetch_assoc()) {
+												echo "<option value='" . $row['lister_id'] . "' data-name='" . $row['lister_name'] . "'>" . $row['lister_id'] . " - " . $row['lister_name'] . "</option>";
+											}
+										}
+										?>
+									</select>
 								</div>
+							</div>
+
+							<!-- Hidden input field to store the selected lister_id -->
+							<input type="hidden" id="selected_lister_id" name="selected_lister_id" value="">
+
+
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Guest Number Allowed</label>
-										<input class="form-control" name="guest_num" type="text" > </div>
+										<input class="form-control" name="guest_num" type="number" > </div>
 								</div>
 
 								
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>How many Bedrooms?</label>
-										<input class="form-control" name="bedroom_num" type="text" > </div>
+										<input class="form-control" name="bedroom_num" type="number" > </div>
 								</div>
 
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>How many Bathrooms?</label>
-										<input class="form-control" name="bathroom_num" type="text" > </div>
+										<input class="form-control" name="bathroom_num" type="number" > </div>
 								</div>
 
 								<div class="col-md-4">
@@ -174,6 +179,44 @@ require_once("database/connection/db.php");
 										<textarea class="form-control" rows="5" name="describe_listing"></textarea>
 									</div>
 								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>What is the price set for a day stay?</label>
+										<input class="form-control" name="price" type="number" > </div>
+								</div>
+
+								<!-- <div class="col-md-4">
+									<div class="form-group">
+										<label>What is the price for short stay?</label>
+										<input class="form-control" name="name" type="text" > </div>
+								</div> -->
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>What is the listing adress?</label>
+										<input class="form-control" name="listing_address" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Listing zip code?</label>
+										<input class="form-control" name="zip_code" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Which district is it in?</label>
+										<input class="form-control" name="district" type="text" > </div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Which town is it in?</label>
+										<input class="form-control" name="town" type="text" > </div>
+								</div>
+								
+
 
 								<div class="col-md-4">
 									<div class="form-group">
@@ -223,35 +266,7 @@ require_once("database/connection/db.php");
 									 </div>
 								</div>
 
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>What is the price set for a day stay?</label>
-										<input class="form-control" name="price" type="text" > </div>
-								</div>
-
-								<!-- <div class="col-md-4">
-									<div class="form-group">
-										<label>What is the price for short stay?</label>
-										<input class="form-control" name="name" type="text" > </div>
-								</div> -->
-
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>What is the listing adress?</label>
-										<input class="form-control" name="listing_address" type="text" > </div>
-								</div>
-
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>Listing zip code?</label>
-										<input class="form-control" name="zip_code" type="text" > </div>
-								</div>
-
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>Which town is it in?</label>
-										<input class="form-control" name="town" type="text" > </div>
-								</div>
+								
 
 								<div class="col-md-4">
 									<div class="form-group">
@@ -297,31 +312,23 @@ require_once("database/connection/db.php");
 									</div>
 								</div>
 
-
-
 								<div class="col-md-4">
 									<div class="form-group">
-										<label> Upload Customer Picture</label>
+										<label> Upload Listing Pictures</label>
 										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="customFile" name="filename">
-											<label class="custom-file-label" for="customFile">Choose file</label>
+										<!-- <input type="file" class="custom-file-input" name="user_pic[]" multiple onchange="displayFileNames(event)">
+  												<div id="file-names"></div> -->
+											<input type="file" name="listing_pictures[]" class="form-control input-lg" multiple >
+											<!-- <label class="custom-file-label" for="customFile">Choose file</label> -->
 										</div>
 									</div>
 								</div>
-								<!-- <div class="col-md-4">
-									<div class="form-group">
-										<label>Upload Customer NID</label>
-										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="customFile" name="filename">
-											<label class="custom-file-label" for="customFile">Choose file</label>
-										</div>
-									</div>
-								</div> -->
+
 							</div>
+							<button type="post" class="btn btn-primary buttonedit1">Create Listing</button>
 						</form>
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary buttonedit1">Create Listings</button>
 			</div>
 		</div>
 	</div>
@@ -334,6 +341,23 @@ require_once("database/connection/db.php");
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="assets/js/script.js"></script>
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<script>
+    // JavaScript code to handle the dropdown selection
+    document.getElementById("lister_id").addEventListener("change", function() {
+        var selectElement = this;
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var selectedListerID = selectedOption.value;
+        var selectedListerName = selectedOption.getAttribute("data-name");
+
+        // Update the hidden input field with the selected lister_id
+        document.getElementById("selected_lister_id").value = selectedListerID;
+
+        // You can also display the selected lister name somewhere if needed
+        // For example, in a <span> element with id="selected_lister_name"
+        // document.getElementById("selected_lister_name").textContent = selectedListerName;
+    });
+</script>
+
 	<script>
 	$(function() {
 		$('#datetimepicker3').datetimepicker({

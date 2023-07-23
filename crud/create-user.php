@@ -191,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // Close the database connection
-    // header("Location: ../add-user.php");
+    header("Location: ../add-user.php");
             $conn->close();
 	        exit(); 
 }

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2023 at 12:37 AM
+-- Generation Time: Jul 23, 2023 at 10:31 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -138,34 +138,30 @@ CREATE TABLE `lister_user` (
 --
 
 CREATE TABLE `listing` (
-  `listing_id` bigint(20) NOT NULL,
+  `listing_id` bigint(200) NOT NULL,
   `lister_id` varchar(500) NOT NULL,
   `guest_num` bigint(20) NOT NULL,
   `bed_num` bigint(20) NOT NULL,
   `bathroom_num` bigint(20) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `short_stay` varchar(255) NOT NULL,
+  `listing_title` varchar(255) NOT NULL,
+  `listing_description` varchar(5000) NOT NULL,
+  `full_day_price_set_by_user` bigint(20) NOT NULL,
+  `listing_address` varchar(255) NOT NULL,
+  `zip_code` bigint(20) NOT NULL,
+  `district` varchar(255) NOT NULL,
+  `town` varchar(255) NOT NULL,
+  `allow_short_stay` int(20) NOT NULL,
   `describe_peaceful` bigint(20) NOT NULL,
   `describe_unique` bigint(20) NOT NULL,
   `describe_familyfriendly` bigint(20) NOT NULL,
   `describe_stylish` bigint(20) NOT NULL,
   `describe_central` bigint(20) NOT NULL,
   `describe_spacious` bigint(20) NOT NULL,
-  `full_day_price_set_by_user` bigint(20) NOT NULL,
-  `short_stay_price_set_up_by_user` bigint(20) DEFAULT NULL,
-  `short_stay_price_set_up_by_jayga` bigint(20) DEFAULT NULL,
-  `address` varchar(255) NOT NULL,
-  `district` varchar(255) NOT NULL,
-  `zip_code` bigint(20) NOT NULL,
-  `town` varchar(255) NOT NULL,
-  `bathroom_private` varchar(255) NOT NULL,
-  `breakfast_availability` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `room_lock` varchar(255) NOT NULL,
-  `who_else_might_be_there` varchar(255) NOT NULL,
-  `house` bigint(20) NOT NULL,
-  `apartment` bigint(20) NOT NULL,
-  `rooms` bigint(20) NOT NULL
+  `bathroom_private` bigint(20) NOT NULL,
+  `breakfast_availability` bigint(20) NOT NULL,
+  `room_lock` bigint(20) NOT NULL,
+  `who_else_might_be_there` bigint(20) NOT NULL,
+  `listing_type` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -176,9 +172,9 @@ CREATE TABLE `listing` (
 
 CREATE TABLE `listing_images` (
   `listing_img_id` bigint(20) NOT NULL,
-  `listing_id` bigint(20) NOT NULL,
-  `listing_filename` bigint(20) NOT NULL,
-  `listing_targetlocation` bigint(20) NOT NULL
+  `listing_id` varchar(500) NOT NULL,
+  `listing_filename` varchar(500) NOT NULL,
+  `listing_targetlocation` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -429,19 +425,19 @@ ALTER TABLE `lister_dashboard`
 -- AUTO_INCREMENT for table `lister_nid`
 --
 ALTER TABLE `lister_nid`
-  MODIFY `listing_nid_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `listing_nid_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `lister_user`
 --
 ALTER TABLE `lister_user`
-  MODIFY `lister_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `lister_id` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `listing`
 --
 ALTER TABLE `listing`
-  MODIFY `listing_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `listing_id` bigint(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `listing_images`
@@ -483,13 +479,13 @@ ALTER TABLE `time_slot_shortstays`
 -- AUTO_INCREMENT for table `user_nid`
 --
 ALTER TABLE `user_nid`
-  MODIFY `user_nid_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `user_nid_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `user_pictures`
 --
 ALTER TABLE `user_pictures`
-  MODIFY `user_picture_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `user_picture_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
