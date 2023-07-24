@@ -142,8 +142,10 @@ require_once("database/connection/db.php");
 								</div>
 							</div>
 
-							<!-- Hidden input field to store the selected lister_id -->
+							<!-- Hidden input fields to store the selected lister_id and lister_name -->
 							<input type="hidden" id="selected_lister_id" name="selected_lister_id" value="">
+							<input type="hidden" id="selected_lister_name" name="selected_lister_name" value="">
+
 
 
 
@@ -342,21 +344,22 @@ require_once("database/connection/db.php");
 	<script src="assets/js/script.js"></script>
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 	<script>
-    // JavaScript code to handle the dropdown selection
-    document.getElementById("lister_id").addEventListener("change", function() {
-        var selectElement = this;
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
-        var selectedListerID = selectedOption.value;
-        var selectedListerName = selectedOption.getAttribute("data-name");
+	document.getElementById("lister_id").addEventListener("change", function() {
+		var selectElement = this;
+		var selectedOption = selectElement.options[selectElement.selectedIndex];
+		var selectedListerID = selectedOption.value;
+		var selectedListerName = selectedOption.getAttribute("data-name");
 
-        // Update the hidden input field with the selected lister_id
-        document.getElementById("selected_lister_id").value = selectedListerID;
+		// Update the hidden input fields with the selected lister_id and lister_name
+		document.getElementById("selected_lister_id").value = selectedListerID;
+		document.getElementById("selected_lister_name").value = selectedListerName;
 
-        // You can also display the selected lister name somewhere if needed
-        // For example, in a <span> element with id="selected_lister_name"
-        // document.getElementById("selected_lister_name").textContent = selectedListerName;
-    });
-</script>
+		// You can also display the selected lister name somewhere if needed
+		// For example, in a <span> element with id="selected_lister_name_display"
+		// document.getElementById("selected_lister_name_display").textContent = selectedListerName;
+	});
+	</script>
+
 
 	<script>
 	$(function() {
