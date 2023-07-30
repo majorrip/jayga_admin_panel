@@ -420,6 +420,9 @@ $(document).ready(function() {
         success: function(response) {
           // Handle the response from the server if needed
           console.log('Listing deleted successfully.');
+
+          // Refresh the page after successful deletion
+          location.reload(); // This will reload the current page
         },
         error: function(error) {
           // Handle errors if they occur during the deletion process
@@ -429,6 +432,7 @@ $(document).ready(function() {
     });
   });
 </script>
+
 
 
 
