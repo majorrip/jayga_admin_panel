@@ -112,7 +112,7 @@ require_once("database/connection/db.php");
 				<div class="page-header">
 					<div class="row align-items-center">
 						<div class="col">
-							<h3 class="page-title mt-5">Add Customer</h3> </div>
+							<h3 class="page-title mt-5">Add User</h3> </div>
 					</div>
 				</div>
 				<div class="row">
@@ -121,12 +121,12 @@ require_once("database/connection/db.php");
 							<div class="row formtype">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Name</label>
+										<label>User Name</label>
 										<input class="form-control" type="text" > </div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Email</label>
+										<label>User Email</label>
 										<input class="form-control" type="text">
 									</div>
 								</div>
@@ -151,13 +151,13 @@ require_once("database/connection/db.php");
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Adress</label>
+										<label>User Adress</label>
 										<input class="form-control" type="text">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label> Upload Customer Picture</label>
+										<label> Upload User Picture</label>
 										<div class="custom-file mb-3">
 											<input type="file" class="custom-file-input" id="customFile" name="filename">
 											<label class="custom-file-label" for="customFile">Choose file</label>
@@ -166,7 +166,7 @@ require_once("database/connection/db.php");
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Upload Customer NID</label>
+										<label>Upload User NID</label>
 										<div class="custom-file mb-3">
 											<input type="file" class="custom-file-input" id="customFile" name="filename">
 											<label class="custom-file-label" for="customFile">Choose file</label>
@@ -177,7 +177,7 @@ require_once("database/connection/db.php");
 						</form>
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary buttonedit1">Create Customer</button>
+				<button type="button" class="btn btn-primary buttonedit1">Create User</button>
 			</div>
 		</div>
 	</div>

@@ -130,12 +130,12 @@ if(empty($_SESSION['admin_id'])) {
 							<div class="row formtype">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Name</label>
+										<label>User Name</label>
 										<input class="form-control" name="name" type="text" > </div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Email</label>
+										<label>User Email</label>
 										<input class="form-control"  name="email" type="text">
 									</div>
 								</div>
@@ -160,13 +160,13 @@ if(empty($_SESSION['admin_id'])) {
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Customer Adress</label>
+										<label>User Adress</label>
 										<input class="form-control"  name="address" type="text">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label> Upload Customer Picture</label>
+										<label> Upload User Picture</label>
 										<div class="custom-file mb-3">
 										<!-- <input type="file" class="custom-file-input" name="user_pic[]" multiple onchange="displayFileNames(event)">
   												<div id="file-names"></div> -->
@@ -177,7 +177,7 @@ if(empty($_SESSION['admin_id'])) {
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Upload Customer NID</label>
+										<label>Upload User NID</label>
 										<div class="custom-file mb-3">
 											<!-- <input type="file" class="custom-file-input" name="user_nid[]" multiple onchange="displayFileNames(event)">
   												<div id="file-names"></div> -->

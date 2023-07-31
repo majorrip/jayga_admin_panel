@@ -204,30 +204,62 @@ require_once("database/connection/db.php");
                                                         <input class="form-control" name="address" type="text" value="">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Upload User Picture</label>
-                                                        <div class="custom-file mb-3">
-                                                            <input type="file" name="user_pic[]" class="form-control input-lg" multiple>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Upload User NID</label>
-                                                        <div class="custom-file mb-3">
-                                                            <input type="file" name="user_nid[]" class="form-control input-lg" multiple>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                
 
                                                 <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <div class="custom-file mb-3">
-                                                            <!-- You can add some custom elements here if needed -->
-                                                        </div>
-                                                    </div>
-                                                </div>
+    <div class="form-group">
+        <label>Upload User Picture</label>
+        <div class="custom-file mb-3">
+            <input type="file" name="user_pic[]" class="form-control input-lg" multiple>
+        </div>
+    </div>
+    <!-- Show User Pictures -->
+    <?php
+        // Assuming $userid is set to the current user's user_id
+        $sql_user_pictures = "SELECT user_filename, user_targetlocation FROM user_pictures WHERE user_id='$userid'";
+        $result_user_pictures = $conn->query($sql_user_pictures);
+        if ($result_user_pictures->num_rows > 0) {
+            while ($row_user_picture = $result_user_pictures->fetch_assoc()) {
+                $user_picture_path = $row_user_picture["user_targetlocation"];
+    ?>
+                <img src="<?php echo $user_picture_path; ?>" alt="User Picture" style="max-height: 150px; margin-right: 10px;">
+    <?php
+            }
+        } else {
+            echo "No user pictures found.";
+        }
+    ?>
+</div>
+
+<div class="col-md-4">
+    <div class="form-group">
+        <label>Upload User NID</label>
+        <div class="custom-file mb-3">
+            <input type="file" name="user_nid[]" class="form-control input-lg" multiple>
+        </div>
+    </div>
+    <!-- Show User NID Images -->
+    <?php
+        $sql_user_nid = "SELECT user_nid_filename, user_nid_targetlocation FROM user_nid WHERE user_id='$userid'";
+        $result_user_nid = $conn->query($sql_user_nid);
+        if ($result_user_nid->num_rows > 0) {
+            while ($row_user_nid = $result_user_nid->fetch_assoc()) {
+                $user_nid_path = $row_user_nid["user_nid_targetlocation"];
+    ?>
+                <img src="<?php echo $user_nid_path; ?>" alt="User NID" style="max-height: 150px; margin-right: 10px;">
+    <?php
+            }
+        } else {
+            echo "No user NID images found.";
+        }
+    ?>
+</div>
+
+
+
+
+
+    
 
                                                 <div class="col-md-4">
                                                 <div class="form-group">
