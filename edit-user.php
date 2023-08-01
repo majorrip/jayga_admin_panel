@@ -30,7 +30,83 @@ require_once("database/connection/db.php");
 	<link rel="stylesheet" href="assets/plugins/morris/morris.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datetimepicker.min.css">
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/style.css"> </head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/style.css"> 
+
+    <style>
+/* Style the carousel images to fit inside the modal */
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel img {
+  max-width: 100%;
+  max-height: 400px; /* Set a maximum height for the images */
+  width: auto;
+  height: auto;
+  margin: 0 auto; /* Center the images horizontally */
+}
+
+/* Style the modal to be responsive */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+}
+
+/* Style the modal content */
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 15px;
+}
+
+/* Style the close button */
+.close {
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Style the previous and next buttons in the carousel */
+.slick-prev,
+.slick-next {
+  z-index: 1;
+}
+
+/* Adjust the carousel dots for better visibility */
+.slick-dots li button:before {
+  font-size: 12px;
+  color: #fff;
+  opacity: 0.7;
+}
+
+/* Style the carousel dots active state */
+.slick-dots li.slick-active button:before {
+  opacity: 1;
+}
+</style>
+
+
+
+</head>
 
 <body>
 	<div class="main-wrapper">
@@ -139,7 +215,7 @@ require_once("database/connection/db.php");
                                                 <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>User ID and Name</label>
-                                                    <select class="form-control" id="lister_id" name="lister_id" required>
+                                                    <select class="form-control" id="user_id" name="user_id" required>
                                                         <option selected="" value="">Select User ID and Name</option>
                                                                 <?php
                                                                 // Assuming a database connection is established and stored in the variable $conn
@@ -160,9 +236,10 @@ require_once("database/connection/db.php");
 
                                             </div>
                                         </div>
-                                        <!-- Hidden input fields to store the selected lister_id and lister_name -->
-                                        <input type="hidden" id="selected_lister_id" name="selected_lister_id" value="">
-                                        <input type="hidden" id="selected_lister_name" name="selected_lister_name" value="">
+                                        <!-- Hidden input fields to store the selected user_id and lister_name -->
+                                        <input type="hidden" id="selected_user_id" name="selected_user_id" value="">
+                                        <input type="hidden" id="selected_user_name" name="selected_user_name" value="">
+                                        <input type="hidden" name="userid" id="userIdInput" value="">
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -198,70 +275,60 @@ require_once("database/connection/db.php");
                                                             <input type="Date" name="birthdate" class="form-control" value=""> </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>User Address</label>
                                                         <input class="form-control" name="address" type="text" value="">
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-4">
+                                                    <!-- Buttons to be added -->
+                                                    <div class="form-group">
+                                                        <label>Show profile picture</label><br>
+                                                        <button type="button" class="btn btn-secondary" id="show_profile_pic">Show</button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Add this div to display the carousel -->
+                                                <div id="profile_pictures"></div>
+
+
+
+                                                <div class="col-md-4">
+                                                <!-- Buttons to be added -->
+                                                <div class="form-group">
+                                                <label>Show NID Pictures</label><br>
+                                                    <button type="button" class="btn btn-secondary" id="show_nid_pic">Show</button>
+                                                </div>
+                                                </div>
+                                                
                                                 
 
                                                 <div class="col-md-4">
-    <div class="form-group">
-        <label>Upload User Picture</label>
-        <div class="custom-file mb-3">
-            <input type="file" name="user_pic[]" class="form-control input-lg" multiple>
-        </div>
-    </div>
-    <!-- Show User Pictures -->
-    <?php
-        // Assuming $userid is set to the current user's user_id
-        $sql_user_pictures = "SELECT user_filename, user_targetlocation FROM user_pictures WHERE user_id='$userid'";
-        $result_user_pictures = $conn->query($sql_user_pictures);
-        if ($result_user_pictures->num_rows > 0) {
-            while ($row_user_picture = $result_user_pictures->fetch_assoc()) {
-                $user_picture_path = $row_user_picture["user_targetlocation"];
-    ?>
-                <img src="<?php echo $user_picture_path; ?>" alt="User Picture" style="max-height: 150px; margin-right: 10px;">
-    <?php
-            }
-        } else {
-            echo "No user pictures found.";
-        }
-    ?>
-</div>
-
-<div class="col-md-4">
-    <div class="form-group">
-        <label>Upload User NID</label>
-        <div class="custom-file mb-3">
-            <input type="file" name="user_nid[]" class="form-control input-lg" multiple>
-        </div>
-    </div>
-    <!-- Show User NID Images -->
-    <?php
-        $sql_user_nid = "SELECT user_nid_filename, user_nid_targetlocation FROM user_nid WHERE user_id='$userid'";
-        $result_user_nid = $conn->query($sql_user_nid);
-        if ($result_user_nid->num_rows > 0) {
-            while ($row_user_nid = $result_user_nid->fetch_assoc()) {
-                $user_nid_path = $row_user_nid["user_nid_targetlocation"];
-    ?>
-                <img src="<?php echo $user_nid_path; ?>" alt="User NID" style="max-height: 150px; margin-right: 10px;">
-    <?php
-            }
-        } else {
-            echo "No user NID images found.";
-        }
-    ?>
-</div>
+                                                    <div class="form-group">
+                                                        <label>Update User Picture</label>
+                                                        <div class="custom-file mb-3">
+                                                            <input type="file" name="user_pic[]" class="form-control input-lg" multiple>
+                                                        </div>
+                                                    </div>
+                                                <!-- Show User Pictures -->
+                                                </div>
 
 
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Update User NID</label>
+                                                    <div class="custom-file mb-3">
+                                                        <input type="file" name="user_nid[]" class="form-control input-lg" multiple>
+                                                    </div>
+                                                </div>
+                                                <!-- Show User NID Images -->
+                                                
+                                            </div>
 
-
-
-    
-
-                                                <div class="col-md-4">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="custom-file mb-3">
                                                         <br>
@@ -271,7 +338,8 @@ require_once("database/connection/db.php");
                                                         </label>
                                                     </div>
                                                 </div>
-                                                </div>
+                                            </div>
+
 
 
                                             </div>
@@ -294,6 +362,21 @@ require_once("database/connection/db.php");
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="assets/js/script.js"></script>
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+    // Get the checkbox element
+    const isListerCheckbox = document.getElementById('is_lister_toggle');
+
+    // Add an event listener to the checkbox
+    isListerCheckbox.addEventListener('change', function () {
+        // Set the value of the checkbox to 1 if checked, otherwise set it to 0
+        this.value = this.checked ? 1 : 0;
+    });
+</script>
+
+
 	<script>
 	$(function() {
 		$('#datetimepicker3').datetimepicker({
@@ -307,15 +390,15 @@ require_once("database/connection/db.php");
     // Function to handle the change event of the dropdown
     function handleUserSelection() {
         // Get the selected option element
-        const selectedOption = document.getElementById('lister_id').options[document.getElementById('lister_id').selectedIndex];
+        const selectedOption = document.getElementById('user_id').options[document.getElementById('user_id').selectedIndex];
 
         // Get the user ID and name from the data attributes of the selected option
         const selectedUserId = selectedOption.value;
         const selectedUserName = selectedOption.getAttribute('data-name');
 
         // Fill the hidden input fields with the selected user ID and name
-        document.getElementById('selected_lister_id').value = selectedUserId;
-        document.getElementById('selected_lister_name').value = selectedUserName;
+        document.getElementById('selected_user_id').value = selectedUserId;
+        document.getElementById('selected_user_name').value = selectedUserName;
 
         // Fill other input fields with the selected user's information
         document.querySelector('input[name="name"]').value = selectedOption.getAttribute('data-name');
@@ -337,10 +420,85 @@ require_once("database/connection/db.php");
     }
 
     // Attach the event listener to the dropdown
-    document.getElementById('lister_id').addEventListener('change', handleUserSelection);
+    document.getElementById('user_id').addEventListener('change', handleUserSelection);
 
     // Trigger the event on page load to fill the input fields if a user is already selected
     handleUserSelection();
+</script>
+
+<script>
+    // Delegate the click event on the close button to the document
+    $(document).on('click', '.close', function() {
+        $(".modal").fadeOut(function() {
+            $(this).remove();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        // Event listener for the "show_profile_pic" button
+        $("#show_profile_pic").click(function() {
+            // Get the selected user_id from the dropdown
+            var selectedUserId = $("#user_id").val();
+            console.log("Selected User ID:", selectedUserId);
+            if (selectedUserId !== "") {
+                // Make an AJAX request to fetch the picture paths from the server
+                $.ajax({
+                    type: "POST",
+                    url: "crud/get-user-pictures.php",
+                    data: { user_id: selectedUserId },
+                    dataType: "json",
+                    success: function(response) {
+                // Check if images were found for the listing_id
+                if (response.length > 0) {
+                    // Generate the HTML for the images in the carousel
+                    var carouselItems = "";
+                    for (var i = 0; i < response.length; i++) {
+                        // Assuming images are located in the "uploads" directory
+                        var imageUrl = "uploads/" + response[i];
+                        carouselItems += '<div><img src="' + imageUrl + '" alt="Listing Image"></div>';
+                    }
+
+                    // Display the carousel in the modal pop-up
+                    var modalContent = '<div class="modal-content"><div class="carousel">' + carouselItems + '</div></div>';
+                    var modal = '<div class="modal">' + modalContent + '<span class="close">&times;</span></div>';
+                    $(modal).appendTo("body");
+
+                    // Show the modal pop-up
+                    $(".modal").fadeIn();
+
+                    // Initialize the Slick carousel
+                    $(".carousel").slick({
+                        arrows: true,
+                        dots: true,
+                        infinite: true,
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    });
+
+                    // Close the modal when the close button is clicked
+                    $(".close").click(function() {
+                        $(".modal").fadeOut(function() {
+                            $(this).remove();
+                        });
+                    });
+                } else {
+                    // If no images found, display a message
+                    alert("No images found for Listing ID " + listingId);
+                }
+            },
+                    error: function(xhr, status, error) {
+    // Log the XMLHttpRequest object (xhr), the status, and the error message
+    console.log("XMLHttpRequest:", xhr);
+    console.log("Status:", status);
+    console.log("Error:", error);
+}
+                });
+            }
+        });
+    });
 </script>
 
 
