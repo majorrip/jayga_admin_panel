@@ -79,7 +79,7 @@ if (isset($_FILES["listing_pictures"])) {
                 move_uploaded_file($temp_name1, $target_file1);
 
                 // Insert record into the database
-                $sql_list1 = "INSERT INTO listing_images (listing_id, listing_filename, listing_targetlocation) VALUES ('$listing_id','$file_name1', '$target_file1')";
+                $sql_list1 = "INSERT INTO listing_images (listing_id, lister_id, listing_filename, listing_targetlocation) VALUES ('$listing_id','$lister_id', '$file_name1', '$target_file1')";
                 if (mysqli_query($conn, $sql_list1)) {
                     echo "profile pic uploaded successfully from user\n";
                 } else {

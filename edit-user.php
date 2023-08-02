@@ -297,12 +297,12 @@ require_once("database/connection/db.php");
 
 
                                                 <div class="col-md-4">
-                                                <!-- Buttons to be added -->
+                                                <!-- Buttons to show NID pictures -->
                                                 <div class="form-group">
-                                                <label>Show NID Pictures</label><br>
+                                                    <label>Show NID Pictures</label><br>
                                                     <button type="button" class="btn btn-secondary" id="show_nid_pic">Show</button>
                                                 </div>
-                                                </div>
+                                            </div>
                                                 
                                                 
 
@@ -317,13 +317,13 @@ require_once("database/connection/db.php");
                                                 </div>
 
 
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>Update User NID</label>
                                                     <div class="custom-file mb-3">
                                                         <input type="file" name="user_nid[]" class="form-control input-lg" multiple>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <!-- Show User NID Images -->
                                                 
                                             </div>
@@ -353,7 +353,7 @@ require_once("database/connection/db.php");
 			</div>
 		</div>
 	</div>
-	<script src="assets/js/jquery-3.5.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -499,6 +499,73 @@ require_once("database/connection/db.php");
             }
         });
     });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+    // Event listener for the "Show NID Pictures" button
+    $("#show_nid_pic").click(function() {
+        // Get the selected user_id from the dropdown
+        var selectedUserId = $("#user_id").val();
+        console.log("Selected User ID:", selectedUserId);
+        if (selectedUserId !== "") {
+            // Make an AJAX request to fetch the NID picture paths from the server
+            $.ajax({
+                type: "POST",
+                url: "crud/get-nid-pictures.php", // Correct the PHP script file name
+                data: { user_id: selectedUserId },
+                dataType: "json",
+                success: function(response) {
+                    // Check if images were found for the user_id
+                    console.log("Response from server:", response);
+                    if (response.length > 0) {
+                        // Generate the HTML for the images in the carousel
+                        var carouselItems = "";
+                        for (var i = 0; i < response.length; i++) {
+                            // Assuming images are located in the "uploads" directory
+                            var imageUrl = "uploads/" + response[i];
+                            carouselItems += '<div><img src="' + imageUrl + '" alt="NID Image"></div>';
+                        }
+
+                        // Display the carousel in the modal pop-up
+                        var modalContent = '<div class="modal-content"><div class="carousel">' + carouselItems + '</div></div>';
+                        var modal = '<div class="modal">' + modalContent + '<span class="close">&times;</span></div>';
+                        $(modal).appendTo("body");
+
+                        // Show the modal pop-up
+                        $(".modal").fadeIn();
+
+                        // Initialize the Slick carousel
+                        $(".carousel").slick({
+                            arrows: true,
+                            dots: true,
+                            infinite: true,
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        });
+
+                        // Close the modal when the close button is clicked
+                        $(".close").click(function() {
+                            $(".modal").fadeOut(function() {
+                                $(this).remove();
+                            });
+                        });
+                    } else {
+                        // If no images found, display a message
+                        alert("No NID images found for the selected user.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Log the XMLHttpRequest object (xhr), the status, and the error message
+                    console.log("XMLHttpRequest:", xhr);
+                    console.log("Status:", status);
+                    console.log("Error:", error);
+                }
+            });
+        }
+    });
+});
 </script>
 
 
