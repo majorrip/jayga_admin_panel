@@ -265,6 +265,8 @@ CREATE TABLE `users` (
   `user_dob` date NOT NULL,
   `user_address` varchar(255) NOT NULL,
   `is_lister` bigint(20) DEFAULT NULL,
+  `user_long` int(255) DEFAULT NULL,
+  `user_lat` int(255) DEFAULT NULL,
   `platform_tag` int(20) NOT NULL DEFAULT 0 COMMENT '0 for web 1 for app',
   `FCM_token` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
