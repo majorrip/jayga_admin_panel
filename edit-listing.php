@@ -119,26 +119,26 @@ require_once("database/connection/db.php");
 				</div>
 				<div class="row">
 					<div class="col-lg-12">
-					<form action="crud/create-listing.php" method="post" enctype="multipart/form-data">
+					<form id="listingForm" action="crud/update-listing.php" method="post" enctype="multipart/form-data">
 							<div class="row formtype">
 
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Listing_ID - Listing_ID - User_Name</label>
-									<select class="form-control" id="listing_id" name="listing_id" required>
-										<option selected="" value="">Select Listing ID and Name</option>
-										<?php
-										// Assuming a database connection is established and stored in the variable $conn
-										$sql = "SELECT * FROM listing";
-										$result = $conn->query($sql);
+								<label>Listing_ID - Listing_Name - Lister_ID</label>
+										<select class="form-control" id="listing_id" name="listing_id" required>
+											<option selected="" value="">Select Listing ID and Name</option>
+											<?php
+											// Assuming a database connection is established and stored in the variable $conn
+											$sql = "SELECT * FROM listing";
+											$result = $conn->query($sql);
 
-										if ($result->num_rows > 0) {
-											while ($row = $result->fetch_assoc()) {
-												echo "<option value='" . $row['listing_id'] . "' data-name='" . $row['lister_name'] . "'>" . $row['listing_id'] . " - " . $row['lister_name'] . "</option>";
+											if ($result->num_rows > 0) {
+												while ($row = $result->fetch_assoc()) {
+													echo "<option value='" . $row['listing_id'] . "' data-name='" . $row['lister_name'] . "' data-lister-id='" . $row['lister_id'] . "'>" . $row['listing_id'] . " - " . $row['lister_name'] . " - " . $row['lister_id'] . "</option>";
+												}
 											}
-										}
-										?>
-									</select>
+											?>
+										</select>
 								</div>
 							</div>
 
@@ -368,6 +368,40 @@ require_once("database/connection/db.php");
 		});
 	});
 	</script>
+
+	<script>
+			document.getElementById('listing_id').addEventListener('change', function () {
+				var selectedListingId = this.value;
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState === 4 && xhr.status === 200) {
+						var data = JSON.parse(xhr.responseText);
+						updateFields(data);
+					}
+				};
+				xhr.open('GET', 'crud/get_listing_data.php?listing_id=' + selectedListingId, true);
+				xhr.send();
+			});
+
+			// Function to update the remaining input fields
+			function updateFields(data) {
+				document.getElementById('selected_lister_id').value = data.lister_id;
+				document.getElementById('selected_lister_name').value = data.lister_name;
+				document.getElementsByName('guest_num')[0].value = data.guest_number;
+				document.getElementsByName('bedroom_num')[0].value = data.bedroom_number;
+				document.getElementsByName('bathroom_num')[0].value = data.bathroom_number;
+				document.getElementsByName('listing_title')[0].value = data.listing_title;
+				document.getElementsByName('describe_listing')[0].value = data.description;
+				document.getElementsByName('price')[0].value = data.price;
+				document.getElementsByName('listing_address')[0].value = data.address;
+				document.getElementsByName('zip_code')[0].value = data.zip_code;
+				document.getElementsByName('district')[0].value = data.district;
+				document.getElementsByName('town')[0].value = data.town;
+				document.getElementsByName('allow_short_stay')[0].checked = data.allow_short_stay === '1';
+				// ... Update other fields ...
+			}
+		</script>
+		
 </body>
 
 </html>
