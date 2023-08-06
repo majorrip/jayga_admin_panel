@@ -298,11 +298,11 @@ require_once("database/connection/db.php");
 
                                                 <div class="col-md-4">
                                                 <!-- Buttons to show NID pictures -->
-                                                <div class="form-group">
-                                                    <label>Show NID Pictures</label><br>
-                                                    <button type="button" class="btn btn-secondary" id="show_nid_pic">Show</button>
+                                                    <div class="form-group">
+                                                        <label>Show NID Pictures</label><br>
+                                                        <button type="button" class="btn btn-secondary" id="show_nid_pic">Show</button>
+                                                    </div>
                                                 </div>
-                                            </div>
                                                 
                                                 
 
