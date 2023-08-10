@@ -1,198 +1,122 @@
 <?php
-// Assuming you have a database connection established
-// Replace these with your actual database credentials
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jayga_db_1";
 
-// Create a connection to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Function to generate a random 4-digit OTP
+function generateOTP() {
+    return strval(rand(1000, 9999));
 }
 
+// Function to generate a random bearer token
+function generateBearerToken() {
+    return bin2hex(random_bytes(12)); // Generate a 12-byte random string as a token
+}
 
+// Function to generate a random user ID
+function generateRandomUserID() {
+    // Generate a random 4-digit number
+    $randomNumber = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-// Check if the form was submitted
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Get the current date and time in the format: YYYYMMDD_HHMMSS
+    $dateTime = date('Ymd_His');
 
+    // Combine the random number and date-time to create the user ID
+    $userID = $dateTime . '_' . $randomNumber;
 
-    function generateRandomUserID() {
-        // Generate a random 4-digit number
-        $randomNumber = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+    return $userID;
+}
+
+// Function to handle user registration or login
+function userRegistrationOrLogin() {
+    global $conn, $phoneNumber;
+
+    // Assuming the phone number is sent in the request body as a JSON field called 'phone_number'
+    $data = json_decode(file_get_contents('php://input'), true);
+    $phoneNumber = $data['phone_number'];
     
-        // Get the current date and time in the format: YYYYMMDD_HHMMSS
-        $dateTime = date('Ymd_His');
-    
-        // Combine the random number and date-time to create the user ID
-        $userID = $dateTime . '_' . $randomNumber;
-    
-        return $userID;
-    }
-
-    $userid = generateRandomUserID();
-    $customerName = $_POST["name"];
-    $customerEmail = $_POST["email"];
-    $phoneNumber = $_POST["phone"];
-    $userNID = $_POST["nid"];
-    $birthDate = $_POST["birthdate"];
-    $a_host = $_POST["a_host"];
-    $customerAddress = $_POST["address"];
-
-    $platform_tag = 0;
-
-    // Insert the form data into the database
-    $sql = "INSERT INTO users (user_id, user_name, user_email, user_phone_num, user_nid, user_dob, user_address,is_lister,platform_tag)
-            VALUES ('$userid','$customerName', '$customerEmail', '$phoneNumber', '$userNID', '$birthDate', '$customerAddress', '$a_host','0')";
+    echo "Received phone number: " . $phoneNumber;
 
 
-    if ($conn->query($sql) === TRUE) {
-        // Data inserted successfully
-        echo "Customer data inserted into the user database.\n";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
+    try {
+        // Fetch the user by phone number
+        $stmt = $conn->prepare('SELECT * FROM users WHERE user_phone_num = :phone_number');
+        $stmt->bindParam(':phone_number', $phoneNumber);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($a_host == 1){
+        if (!$user) {
+            // If the user does not exist, perform user registration
+            // Generate OTP, bearer token, and save to the database
+            $otp = generateOTP();
+            $bearerToken = generateBearerToken();
+            $userID = generateRandomUserID();
 
-        $sql1 = "INSERT INTO lister_user (user_id, lister_name, lister_email, lister_phone_num, lister_nid, lister_dob, lister_address, platform_tag)
-                VALUES ('$userid','$customerName', '$customerEmail', '$phoneNumber', '$userNID', '$birthDate', '$customerAddress', '0')";
-        
-        if ($conn->query($sql1) === TRUE) {
-            // Data inserted successfully
-            echo "Customer data inserted into the lister database.";
+            // Insert the new user into the database
+            $stmt = $conn->prepare('INSERT INTO users (user_id, user_phone_num, otp, acc_token) VALUES (:user_id, :phone_number, :otp, :bearer_token)');
+            $stmt->bindParam(':user_id', $userID);
+            $stmt->bindParam(':phone_number', $phoneNumber);
+            $stmt->bindParam(':otp', $otp);
+            $stmt->bindParam(':bearer_token', $bearerToken);
+            $stmt->execute();
+
+            // Return the bearer token, user ID, and actual OTP to the user
+            header('Content-Type: application/json');
+            echo json_encode(array(
+                'status' => 'success',
+                'message' => 'User registered successfully',
+                'user_id' => $userID,
+                'phone_number' => $phoneNumber,
+                'bearer_token' => $bearerToken,
+                'otp' => $otp
+            ));
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            // If the user already exists, return the user data in JSON format
+            header('Content-Type: application/json');
+            echo json_encode(array(
+                'status' => 'success',
+                'message' => 'User already exists',
+                'user' => array(
+                    'user_id' => $user['user_id'],
+                    'user_phone_num' => $user['user_phone_num'],
+                    'otp' => $user['otp'],
+                    'acc_token' => $user['acc_token']
+                )
+            ));
         }
-
-        if (isset($_FILES["user_nid"])) {
-            $num_files = count($_FILES["user_nid"]["name"]);
-            for ($i = 0; $i < $num_files; $i++) {
-                if ($_FILES["user_nid"]["error"][$i] == 0) {
-                    // Check if file is an image
-                    $file_type = $_FILES["user_nid"]["type"][$i];
-                    if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
-                        // Generate unique file name based on current date and time
-                        $file_name3 = $_FILES["user_nid"]["name"][$i];
-                        $file_extension3 = pathinfo($file_name3, PATHINFO_EXTENSION);
-                        $file_name3 = $userid . "_NID_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension3;
-                        
-                        // Move file to permanent location on server (for lister_nid)
-                        $temp_name3 = $_FILES["user_nid"]["tmp_name"][$i];
-                        $upload_dir3 = "../uploads/lister/lister_nid/";
-                        $target_file3 = $upload_dir3 . basename($file_name3);
-                        move_uploaded_file($temp_name3, $target_file3);
-        
-                        // Copy file to permanent location on server (for user_nid)
-                        $upload_dir_user = "../uploads/user/user_nid/";
-                        $target_file_user = $upload_dir_user . basename($file_name3);
-                        copy($target_file3, $target_file_user);
-
-                        
-        
-                        // Insert record into database (for lister_nid)
-                        $sql_list3 = "INSERT INTO lister_nid (lister_user_id, lister_nid_pic_name, listing_nid_pic_location) VALUES ('$userid','$file_name3', '$target_file3')";
-                        if (mysqli_query($conn, $sql_list3)) {
-                            echo "nid uploaded successfully as a lister\n";
-                        } else {
-                            echo "Error: " . $sql_list . "
-                            <br>" . mysqli_error($conn);
-                        }
-
-                        // Insert record into database (for user_nid)
-                        $sql_list3 = "INSERT INTO user_nid (user_id, user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$file_name3', '$target_file_user')";
-                        if (mysqli_query($conn, $sql_list3)) {
-                            echo "nid uploaded successfully as a lister\n";
-                        } else {
-                            echo "Error: " . $sql_list . "
-                            <br>" . mysqli_error($conn);
-                        }
-                    }
-                }
-            }
-        }
-        
-        
-    }
-    
-    // Check if profile_pic were uploaded
-    if (isset($_FILES["user_pic"])) {
-        $num_files = count($_FILES["user_pic"]["name"]);
-        for ($i = 0; $i < $num_files; $i++) {
-            if ($_FILES["user_pic"]["error"][$i] == 0) {
-                // Check if file is an image
-                $file_type = $_FILES["user_pic"]["type"][$i];
-                if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
-                    // Generate unique file name based on current date and time
-                    $file_name1 = $_FILES["user_pic"]["name"][$i];
-                    $file_extension1 = pathinfo($file_name1, PATHINFO_EXTENSION);
-                    $file_name1 = $userid . "_profile-pic_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension1;
-                    
-                    // Move file to permanent location on server
-                    $temp_name1 = $_FILES["user_pic"]["tmp_name"][$i];
-                    $upload_dir1 = "../uploads/user/profile_pic/";
-                    $target_file1 = $upload_dir1 . basename($file_name1);
-                    move_uploaded_file($temp_name1, $target_file1);
-    
-                    // Insert record into database
-                    $sql_list1 = "INSERT INTO user_pictures (user_id, user_filename, user_targetlocation) VALUES ('$userid','$file_name1', '$target_file1')";
-                    if (mysqli_query($conn, $sql_list1)) {
-                        echo "profile pic uploaded successfully from user\n";
-                    } else {
-                        echo "Error: " . $sql_list . "
-                        <br>" . mysqli_error($conn);
-                    }
-                }
-            }
-        }
-    }
-
-    if (isset($_FILES["user_nid"])) {
-    $num_files = count($_FILES["user_nid"]["name"]);
-    for ($i = 0; $i < $num_files; $i++) {
-        if ($_FILES["user_nid"]["error"][$i] == 0) {
-            // Check if file is an image
-            $file_type = $_FILES["user_nid"]["type"][$i];
-            if (($file_type == "image/jpeg") || ($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/bmp")) {
-                // Generate unique file name based on current date and time
-                $file_name1 = $_FILES["user_nid"]["name"][$i];
-                $file_extension1 = pathinfo($file_name1, PATHINFO_EXTENSION);
-                $file_name1 = $userid . "_user-nid_". date("YmdHis") . "_" . rand(1000, 9999) . "." . $file_extension1;
-
-                // Move file to permanent location on server
-                $temp_name1 = $_FILES["user_nid"]["tmp_name"][$i];
-                $upload_dir1 = "../uploads/user/user_nid/";
-                $target_file1 = $upload_dir1 . basename($file_name1);
-
-                // Validate if the file was successfully moved
-                if (move_uploaded_file($temp_name1, $target_file1)) {
-                    // Insert record into database
-                    $sql_list1 = "INSERT INTO user_nid (user_id, user_nid_filename, user_nid_targetlocation) VALUES ('$userid','$file_name1', '$target_file1')";
-                    if (mysqli_query($conn, $sql_list1)) {
-                        echo "User NID uploaded successfully.\n";
-                    } else {
-                        echo "Error inserting NID record into the database: " . mysqli_error($conn) . "\n";
-                    }
-                } else {
-                    echo "Error moving NID file to the target location.\n";
-                }
-            } else {
-                echo "Invalid file type. Only JPEG, PNG, JPG, and BMP images are allowed.\n";
-            }
-        } else {
-            echo "Error uploading NID file: " . $_FILES["user_nid"]["error"][$i] . "\n";
-        }
+    } catch (PDOException $e) {
+        // Handle database connection error or query error
+        header('HTTP/1.1 500 Internal Server Error');
+        echo json_encode(array('error' => 'Internal Server Error'));
+        die();
     }
 }
 
+// Handle database connection
+$host = 'podma-bd-cp1';
+$username = 'jaygabdc_atif_admin';
+$password = 'jaygabd_atif_123';
+$dbname = 'jaygabdc_jayga_db_1';
 
-
-    // Close the database connection
-    header("Location: ../add-user.php");
-            $conn->close();
-	        exit(); 
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    // Handle database connection error
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(array('error' => 'Internal Server Error'));
+    die();
 }
+
+// Handle RESTful API routing
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$endpoints = array(
+    '/API/V1/login-api.php' => 'userRegistrationOrLogin'
+);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($endpoints[$url])) {
+    $functionName = $endpoints[$url];
+    $functionName();
+} else {
+    header('HTTP/1.1 404 Not Found');
+    echo json_encode(array('error' => 'Not Found'));
+}
+
 ?>
