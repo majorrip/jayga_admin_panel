@@ -16,41 +16,27 @@ try {
     die();
 }
 
-
 // Function to update user information
 function updateUserInformation() {
-    // Get raw POST data
-    $rawPostData = file_get_contents('php://input');
-
-    // Parse raw POST data as URL-encoded
-    parse_str($rawPostData, $postData);
-
     // Check if the required parameters are provided
-    if (!isset($postData['acc_token']) || !isset($postData['user_name']) || !isset($postData['user_email']) || !isset($postData['user_dob'])) {
+    if (!isset($_POST['acc_token']) || !isset($_POST['user_name']) || !isset($_POST['user_email']) || !isset($_POST['user_dob'])) {
         header('HTTP/1.1 400 Bad Request');
         echo json_encode(array('error' => 'Missing required fields'));
         die();
     }
 
     // Retrieve parameters
-    $acc_token = $postData['acc_token'];
-    $user_name = $postData['user_name'];
-    $user_email = $postData['user_email'];
-    $user_dob = $postData['user_dob'];
+    $acc_token = $_POST['acc_token'];
+    $user_name = $_POST['user_name'];
+    $user_email = $_POST['user_email'];
+    $user_dob = $_POST['user_dob'];
 
     // Convert the provided user_dob to the MySQL DATE format (YYYY-MM-DD)
     $user_dob_mysql = date('Y-m-d', strtotime($user_dob));
 
     try {
         // Check if the provided acc_token exists in the database
-        $host = 'podma-bd-cp1';
-        $username = 'jaygabdc_atif_admin';
-        $password = 'jaygabd_atif_123';
-        $dbname = 'jaygabdc_jayga_db_1';
-
-        $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+        global $conn;
         $stmt = $conn->prepare('SELECT * FROM users WHERE acc_token = :acc_token');
         $stmt->bindParam(':acc_token', $acc_token);
         $stmt->execute();
@@ -81,7 +67,7 @@ function updateUserInformation() {
             // Output the updated user information in JSON format
             header('Content-Type: application/json');
             echo json_encode(array(
-                'status' => 'success',
+                // 'status' => 'success',
                 'message' => 'User information updated successfully',
                 'updated_user' => $updatedUser
             ));
