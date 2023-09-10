@@ -56,12 +56,37 @@ function addReview() {
         echo json_encode(array('error' => 'Internal Server Error2'));
         die();
     }
+    
+    // Fetch user name from the users table based on user_id
+    try {
+        global $conn;
+        $stmt = $conn->prepare('SELECT user_name FROM users WHERE user_id = :user_id');
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($result) {
+            $user_name = $result['user_name'];
+        } else {
+            // Handle the case where lister_id and listing_id don't exist in the listing table
+            header('HTTP/1.1 404 Not Found');
+            echo json_encode(array('error' => 'Lister name not found'));
+            die();
+        }
+    } catch (PDOException $e) {
+        // Handle any database error that may occur during the query
+        header('HTTP/1.1 500 Internal Server Error');
+        echo json_encode(array('error' => 'Internal Server Error2'));
+        die();
+    }
 
     try {
         // Insert the review into the review table
         global $conn;
-        $stmt = $conn->prepare('INSERT INTO review (user_id, lister_id, listing_id, lister_name, stars, description) VALUES (:user_id, :lister_id, :listing_id, :lister_name, :stars, :description)');
+        $stmt = $conn->prepare('INSERT INTO review (user_id, user_name, lister_id, listing_id, lister_name, stars, description) VALUES (:user_id, :user_name, :lister_id, :listing_id, :lister_name, :stars, :description)');
         $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':user_name', $user_name);
         $stmt->bindParam(':lister_id', $lister_id);
         $stmt->bindParam(':listing_id', $listing_id);
         $stmt->bindParam(':lister_name', $lister_name);

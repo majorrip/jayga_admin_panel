@@ -1,6 +1,15 @@
 <?php
+// Handle database connection
+$host = 'podma-bd-cp1';
+$username = 'jaygabdc_atif_admin';
+$password = 'jaygabd_atif_123';
+$dbname = 'jaygabdc_jayga_db_1';
 
-// Function to generate a random 6-digit OTP
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Function to generate a random 6-digit OTP
 function generateOTP() {
     return strval(rand(100000, 999999));
 }
@@ -25,74 +34,56 @@ function generateRandomUserID() {
 }
 
 // Function to handle user registration or login
-function userRegistrationOrLogin() {
-    global $conn, $phoneNumber;
-
-    // Check if the phone number is provided as a query parameter
-    if (isset($_GET['phone_number'])) {
-        // Use the phone number from the query parameter
-        $phoneNumber = $_GET['phone_number'];
+// Function to handle user registration or login
+function handleUserRegistrationOrLogin($conn) {
+    // Check if the phone number and FCM token are provided in the form data
+    if (isset($_POST['phone_number']) && isset($_POST['fcm_token'])) {
+        $phoneNumber = $_POST['phone_number'];
+        $fcmToken = $_POST['fcm_token'];
     } else {
-        // If the phone number is not in the query parameter, assume it's in the request body
-        $data = json_decode(file_get_contents('php://input'), true);
-        $phoneNumber = isset($data['phone_number']) ? $data['phone_number'] : null;
-    }
-
-    // Check if the phone number was successfully obtained
-    if ($phoneNumber === null) {
-        // Handle the case where the phone number is missing
         header('HTTP/1.1 400 Bad Request');
-        echo json_encode(array('error' => 'Phone number is missing'));
+        echo json_encode(array('error' => 'Phone number or FCM token is missing'));
         die();
     }
 
-
-
     try {
-        // Fetch the user by phone number
+        // Check if the user exists by phone number
         $stmt = $conn->prepare('SELECT * FROM users WHERE user_phone_num = :phone_number');
         $stmt->bindParam(':phone_number', $phoneNumber);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$user) {
-            // If the user does not exist, perform user registration
-            // Generate OTP, bearer token, and save to the database
-            $otp = generateOTP();
-            $bearerToken = generateBearerToken();
+            // If the user does not exist, insert a new record
             $userID = generateRandomUserID();
 
-            // Insert the new user into the database
-            $stmt = $conn->prepare('INSERT INTO users (user_id, user_phone_num, otp, acc_token, platform_tag) VALUES (:user_id, :phone_number, :otp, :bearer_token, 1)');
+            $stmt = $conn->prepare('INSERT INTO users (user_id, user_phone_num, FCM_token) VALUES (:user_id, :phone_number, :fcm_token)');
             $stmt->bindParam(':user_id', $userID);
             $stmt->bindParam(':phone_number', $phoneNumber);
-            $stmt->bindParam(':otp', $otp);
-            $stmt->bindParam(':bearer_token', $bearerToken);
+            $stmt->bindParam(':fcm_token', $fcmToken);
             $stmt->execute();
 
-            // Return the bearer token, user ID, and actual OTP to the user
+            // Return a response for a new user
             header('Content-Type: application/json');
             echo json_encode(array(
                 'status' => 'success',
-                'message' => 'User registered successfully',
+                'message' => 'New user registered successfully',
                 'user' => array(
-                        'user_id' => $userID,
-                        'phone_number' => $phoneNumber,
-                        'bearer_token' => $bearerToken,
-                        'otp' => $otp
+                    'user_id' => $userID,
+                    'phone_number' => $phoneNumber,
+                    'fcm_token' => $fcmToken
                 )
             ));
         } else {
-            // If the user already exists, return the user data in JSON format
+            // If the user exists, return their information
             header('Content-Type: application/json');
             echo json_encode(array(
                 'status' => 'success',
                 'message' => 'User already exists',
                 'user' => array(
                     'user_id' => $user['user_id'],
-                    'user_phone_num' => $user['user_phone_num'],
-                    'otp' => $user['otp'],
-                    'acc_token' => $user['acc_token']
+                    'phone_number' => $user['user_phone_num'],
+                    'fcm_token' => $user['FCM_token']
                 )
             ));
         }
@@ -104,15 +95,8 @@ function userRegistrationOrLogin() {
     }
 }
 
-// Handle database connection
-$host = 'podma-bd-cp1';
-$username = 'jaygabdc_atif_admin';
-$password = 'jaygabd_atif_123';
-$dbname = 'jaygabdc_jayga_db_1';
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    
 } catch (PDOException $e) {
     // Handle database connection error
     header('HTTP/1.1 500 Internal Server Error');
@@ -123,12 +107,12 @@ try {
 // Handle RESTful API routing
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $endpoints = array(
-    '/API/V1/login-api.php' => 'userRegistrationOrLogin'
+    '/API/V1/login-api.php' => 'handleUserRegistrationOrLogin'
 );
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($endpoints[$url])) {
     $functionName = $endpoints[$url];
-    $functionName();
+    $functionName($conn);
 } else {
     header('HTTP/1.1 404 Not Found');
     echo json_encode(array('error' => 'Not Found'));

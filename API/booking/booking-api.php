@@ -73,7 +73,8 @@ function insertBookingInformation() {
         }
 
         // Retrieve listing information based on listing_id
-        $listingQuery = 'SELECT l.listing_id, l.lister_id, lu.lister_name, l.guest_num, l.bed_num, l.bathroom_num, l.listing_title, l.listing_description, l.full_day_price_set_by_user, l.listing_address, l.zip_code, l.town, l.allow_short_stay, l.describe_peaceful, l.describe_unique, l.describe_familyfriendly, l.describe_stylish, l.describe_central, l.describe_spacious, l.bathroom_private, l.breakfast_availability, l.room_lock, l.who_else_might_be_there, l.listing_type FROM listing l INNER JOIN lister_user lu ON l.lister_id = lu.lister_id WHERE l.listing_id = :listing_id';
+        $listingQuery = 'SELECT l.listing_id, l.lister_id, lu.lister_name, l.guest_num, l.bed_num, l.bathroom_num, l.listing_title, l.listing_description, l.full_day_price_set_by_user, l.listing_address, l.zip_code, l.town, l.allow_short_stay, l.describe_peaceful, l.describe_unique, l.describe_familyfriendly, l.describe_stylish, l.describe_central, l.describe_spacious, l.listing_type, l.lati, l.longi FROM listing l INNER JOIN lister_user lu ON l.lister_id = lu.lister_id WHERE l.listing_id = :listing_id';
+
 
     
 

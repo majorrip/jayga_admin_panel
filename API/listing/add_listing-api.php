@@ -28,6 +28,7 @@ function insertListingInformation() {
     $requiredFields = array(
         'lister_id',
         'lister_name',
+        'nid_number',
         'guest_num',
         'bed_num',
         'bathroom_num',
@@ -61,6 +62,7 @@ function insertListingInformation() {
     // Retrieve parameters
     $lister_id = $_POST['lister_id'];
     $lister_name = $_POST['lister_name'];
+    $nid_number = $_POST['nid_number'];
     $guest_num = $_POST['guest_num'];
     $bed_num = $_POST['bed_num'];
     $bathroom_num = $_POST['bathroom_num'];
@@ -83,13 +85,13 @@ function insertListingInformation() {
     $longi = $_POST['longi'];
 
     // Insert data into the 'listing' table
-    $sql = "INSERT INTO listing (lister_id, lister_name, guest_num, bed_num, bathroom_num, listing_title, listing_description, full_day_price_set_by_user, listing_address, zip_code, district, town, allow_short_stay, describe_peaceful, describe_unique, describe_familyfriendly, describe_stylish, describe_central, describe_spacious, listing_type, lati, longi)
-    VALUES (:lister_id, :lister_name, :guest_num, :bed_num, :bathroom_num, :listing_title, :listing_description, :full_day_price_set_by_user, :listing_address, :zip_code, :district, :town, :allow_short_stay, :describe_peaceful, :describe_unique, :describe_familyfriendly, :describe_stylish, :describe_central, :describe_spacious, :listing_type, :lati, :longi);
-    SELECT LAST_INSERT_ID() AS last_id;";
+    $sql = "INSERT INTO listing (lister_id, lister_name, nid_number,guest_num, bed_num, bathroom_num, listing_title, listing_description, full_day_price_set_by_user, listing_address, zip_code, district, town, allow_short_stay, describe_peaceful, describe_unique, describe_familyfriendly, describe_stylish, describe_central, describe_spacious, listing_type, lati, longi)
+    VALUES (:lister_id, :lister_name, :nid_number, :guest_num, :bed_num, :bathroom_num, :listing_title, :listing_description, :full_day_price_set_by_user, :listing_address, :zip_code, :district, :town, :allow_short_stay, :describe_peaceful, :describe_unique, :describe_familyfriendly, :describe_stylish, :describe_central, :describe_spacious, :listing_type, :lati, :longi)";
 
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':lister_id', $lister_id, PDO::PARAM_INT);
     $stmt->bindParam(':lister_name', $lister_name, PDO::PARAM_STR);
+    $stmt->bindParam(':nid_number', $nid_number, PDO::PARAM_STR);
     $stmt->bindParam(':guest_num', $guest_num, PDO::PARAM_INT);
     $stmt->bindParam(':bed_num', $bed_num, PDO::PARAM_INT);
     $stmt->bindParam(':bathroom_num', $bathroom_num, PDO::PARAM_INT);
@@ -114,7 +116,7 @@ function insertListingInformation() {
     try {
         $stmt->execute();
         $listing_id = $conn->lastInsertId(); // Get the generated listing_id
-
+        
         // Handle data for the 'listing_describe' table
         $appartments = isset($_POST['appartments']) ? $_POST['appartments'] : 0;
         $cabin = isset($_POST['cabin']) ? $_POST['cabin'] : 0;
@@ -189,7 +191,36 @@ function insertListingInformation() {
         $amenitiesStmt->bindParam(':cctv', $cctv, PDO::PARAM_INT);
         $amenitiesStmt->execute();
 
-        echo json_encode(array('success' => 'Data inserted successfully.'));
+        echo json_encode($responseData = array(
+            'success' => 'Data inserted successfully.',
+            'data' => array(
+                'listing_id' => $listing_id,
+                'lister_id' => $lister_id,
+                'lister_name' => $lister_name,
+                'nid_number' => $nid_number,
+                'guest_num' => $guest_num,
+                'bed_num' => $bed_num,
+                'bathroom_num' => $bathroom_num,
+                'listing_title' => $listing_title,
+                'listing_description' => $listing_description,
+                'full_day_price_set_by_user' => $full_day_price_set_by_user,
+                'listing_address' => $listing_address,
+                'zip_code' => $zip_code,
+                'district' => $district,
+                'town' => $town,
+                'allow_short_stay' => $allow_short_stay,
+                'describe_peaceful' => $describe_peaceful,
+                'describe_unique' => $describe_unique,
+                'describe_familyfriendly' => $describe_familyfriendly,
+                'describe_stylish' => $describe_stylish,
+                'describe_central' => $describe_central,
+                'describe_spacious' => $describe_spacious,
+                'listing_type' => $listing_type,
+                'lati' => $lati,
+                'longi' => $longi,
+                // Add other data fields here as needed
+            )
+        ));
     } catch (PDOException $e) {
         // Handle database connection error or query error
         header('HTTP/1.1 500 Internal Server Error');
